@@ -1,1 +1,39 @@
-/* You can add global styles to this file, and also import other style files */
+@import 'primeicons/primeicons.css';
+@import 'ngx-toastr/toastr';
+
+html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden; /* Evita el desplazamiento */
+}
+
+/* Configuración de colores personalizados */
+#toast-container > .toast-success {
+    background-color: #28a745 !important; /* Verde */
+    color: white !important;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  }
+  #toast-container > .toast-error {
+    background-color: #dc3545 !important; /* Rojo */
+    color: white !important;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  }
+  #toast-container > .toast-info {
+    background-color: #17a2b8 !important; /* Azul */
+    color: white !important;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  }
+  #toast-container > .toast-warning {
+    background-color: #ffc107 !important; /* Amarillo */
+    color: black !important;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Ajustes adicionales para iconos, márgenes, etc. */
+  .toast-message {
+    font-size: 16px;
+  }
+  .toast-title {
+    font-weight: bold;
+  }
+  

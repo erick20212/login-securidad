@@ -1,0 +1,7 @@
+<header class="header" *ngIf="authService.isAuthenticated()">
+    <div class="header-content">
+      <span>{{ role }}</span>
+      <span>{{ username }}</span>
+    </div>
+  </header>
+  
