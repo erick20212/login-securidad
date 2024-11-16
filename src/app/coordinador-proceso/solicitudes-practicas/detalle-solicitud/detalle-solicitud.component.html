@@ -1,0 +1,27 @@
+<div class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Detalle de la Solicitud</h2>
+        <button class="close-button" (click)="cerrarModal()">×</button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Código:</strong> {{ proceso.codigo }}</p>
+        <p><strong>Nombre de la Empresa:</strong> {{ proceso.empresa }}</p>
+        <p><strong>Número de RUC:</strong> {{ proceso.ruc }}</p>
+        <p><strong>Estado:</strong> {{ proceso.estado }}</p>
+        <p><strong>Detalles adicionales:</strong></p>
+        <ul>
+          <li>Representante: Juan Vega Sanchez</li>
+          <li>DNI: 73012434</li>
+          <li>Email: JuanVegagmail.com</li>
+          <li>Dirección: Av.Los Geranios 769</li>
+          <li>Distrito: Chosica</li>
+          <li>Departamento: Lima</li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-confirmar">Confirmar</button>
+        <button class="btn-cancelar" (click)="cerrarModal()">Cancelar</button>
+      </div>
+    </div>
+  </div>

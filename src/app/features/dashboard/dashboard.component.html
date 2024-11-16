@@ -4,13 +4,12 @@
        (mouseenter)="isCollapsed = false" 
        (mouseleave)="isCollapsed = true">
     
-    <!-- Imagen de perfil para todos los roles que tengan foto de perfil -->
+    <!-- Imagen de perfil y opciones de menú en el sidebar -->
     <div *ngIf="profileImage" class="profile-section">
       <img [src]="profileImage" alt="Profile Image" class="profile-image" />
     </div>
 
     <ul>
-      <!-- Opción de inicio para todos los roles -->
       <li>
         <a routerLink="/dashboard" class="logo">
           <fa-icon [icon]="faHome"></fa-icon>
@@ -18,31 +17,34 @@
         </a>
       </li>
 
-      <!-- Opción de Carta de Aceptación solo para el rol "user" -->
-      <li *ngIf="role === 'user'">
+      <!-- Opciones exclusivas para el rol de usuario -->
+      <li *ngIf="role === 'estudiante'">
         <a routerLink="/dashboard/carta-aceptacion">
           <fa-icon [icon]="faFileAlt"></fa-icon>
           <span class="nav-item" *ngIf="!isCollapsed">Carta de Aceptación</span>
         </a>
       </li>
 
-      <!-- Opciones adicionales solo para el rol "coordinador" -->
-      <ng-container *ngIf="role === 'coordinador'">
-        <li>
-          <a routerLink="option1">
-            <fa-icon [icon]="faChartBar"></fa-icon>
-            <span class="nav-item" *ngIf="!isCollapsed">Opción 1</span>
-          </a>
-        </li>
-        <li>
-          <a routerLink="option2">
-            <fa-icon [icon]="faCog"></fa-icon>
-            <span class="nav-item" *ngIf="!isCollapsed">Opción 2</span>
-          </a>
-        </li>
-      </ng-container>
+      <li *ngIf="role === 'estudiante'">
+        <a routerLink="/dashboard/lista-procesos">
+          <fa-icon [icon]="faFileAlt"></fa-icon>
+          <span class="nav-item" *ngIf="!isCollapsed">Lista de Procesos</span>
+        </a>
+      </li>
 
-      <!-- Opción de Cerrar sesión para todos los roles -->
+      <li *ngIf="role === 'estudiante'">
+        <a routerLink="/dashboard/registro-practicas">
+          <fa-icon [icon]="faFileAlt"></fa-icon>
+          <span class="nav-item" *ngIf="!isCollapsed">Registro de Prácticas</span>
+        </a>
+      </li>
+
+      <li *ngIf="role === 'coordinador'">
+        <a routerLink="/dashboard/lista-solicitudes">
+          <fa-icon [icon]="faFileAlt"></fa-icon>
+          <span class="nav-item" *ngIf="!isCollapsed">Lista Solicitudes</span>
+        </a>
+      </li>
       <li>
         <a (click)="logout()">
           <fa-icon [icon]="faSignOutAlt"></fa-icon>
@@ -52,8 +54,8 @@
     </ul>
   </nav>
 
-  <!-- Contenido dinámico cargado dentro del dashboard -->
+  <!-- Área principal del contenido, donde el contenido de cada sección se cargará dinámicamente -->
   <div class="content" [class.collapsed]="isCollapsed">
-    <router-outlet></router-outlet> <!-- Aquí se cargan los componentes hijos -->
+    <router-outlet></router-outlet> <!-- Aquí se cargan los componentes hijos como CartaAceptacionComponent -->
   </div>
 </div>

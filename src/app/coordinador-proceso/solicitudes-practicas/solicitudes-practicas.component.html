@@ -1,0 +1,38 @@
+<div class="lista-container">
+  <h1>Lista de Practicas-Pre -Profesionales</h1>
+
+  <div class="search-filter-bar">
+    <input type="text" placeholder="Buscar..." class="search-input" />
+    <button class="filter-button">
+      <i class="fas fa-filter"></i>
+    </button>
+  </div>
+
+  <div *ngFor="let proceso of procesos" class="proceso-card">
+    <div class="proceso-info">
+      <p><strong>Nombre:</strong> {{ proceso.nombre }}</p>
+      <p><strong>Empresa:</strong> {{ proceso.empresa }}</p>
+    </div>
+    <div class="proceso-info">
+      <p><strong>Código:</strong> {{ proceso.codigo }}</p>
+      <p><strong>Número de RUC:</strong> {{ proceso.ruc }}</p>
+    </div>
+    <div class="proceso-status">
+      <p><strong>Estado:</strong> 
+        <span [ngClass]="{'en-espera': proceso.estado === 'En espera', 'en-proceso': proceso.estado === 'En proceso'}">
+          {{ proceso.estado }}
+        </span>
+      </p>
+      <button class="view-button" (click)="mostrarDetalle(proceso)">
+        <i class="fas fa-eye"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Modal de Detalle -->
+  <app-detalle-solicitud
+    *ngIf="procesoSeleccionado"
+    [proceso]="procesoSeleccionado"
+    (cerrar)="cerrarDetalle()"
+  ></app-detalle-solicitud>
+</div>

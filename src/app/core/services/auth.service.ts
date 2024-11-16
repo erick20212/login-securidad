@@ -45,7 +45,7 @@ export class AuthService {
   }
 
   getUserRole(): string {
-    return localStorage.getItem('role') || '';
+    return (localStorage.getItem('role') || '').toLowerCase(); // Asegura que siempre esté en minúsculas
   }
 
   logout(): void {
