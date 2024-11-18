@@ -11,7 +11,8 @@
       </div>
       <div class="form-group">
         <label><strong>Código de estudiante:</strong></label>
-        <input type="text" [(ngModel)]="studentData.studentCode" placeholder="" />
+        <input type="text" [(ngModel)]="studentData.studentCode" placeholder="" required />
+        <span *ngIf="!studentData.studentCode && showConfirmation" class="error">El código es obligatorio</span>
       </div>
       <div class="form-group">
         <label><strong>DNI:</strong></label>

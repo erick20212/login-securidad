@@ -1,24 +1,18 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
-interface Proceso {
-  nombre: string;
-  codigo: string;
-  empresa: string;
-  ruc: string;
-  estado: string;
-}
 @Component({
   selector: 'app-detalle-solicitud',
-  standalone: true,
-  imports: [],
+  standalone:true,
   templateUrl: './detalle-solicitud.component.html',
-  styleUrl: './detalle-solicitud.component.css'
+  styleUrls: ['./detalle-solicitud.component.css'],
 })
 export class DetalleSolicitudComponent {
-  @Input() proceso!: Proceso;
-  @Output() cerrar = new EventEmitter<void>();
+  @Input() proceso: any; // Recibe el proceso seleccionado
+  @Output() cerrar = new EventEmitter<void>(); // Emite un evento para cerrar el modal
+  @Output() confirmar = new EventEmitter<void>(); // Emite un evento para confirmar la acción
 
-  cerrarModal() {
-    this.cerrar.emit();
+  RegresarModal() {
+    this.cerrar.emit(); // Emite el evento para cerrar el modal
   }
+
 }

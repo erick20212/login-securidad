@@ -52,3 +52,21 @@ html, body {
   color: black !important;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
+
+/* Modo oscuro */
+body.dark-mode {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+body.dark-mode .sidebar {
+  background-color: #333333;
+  color: white;
+}
+
+body.dark-mode .content {
+  background-color: #181818;
+  color: white;
+}
+
+

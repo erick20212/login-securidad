@@ -11,7 +11,7 @@ export class PracticasService {
 
   constructor(private http: HttpClient) {}
 
-  obtenerPracticas(): Observable<any[]> {
+  getPracticas(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl);
   }
 }

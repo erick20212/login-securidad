@@ -4,11 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 
-import { Empresa } from '../../interfaces/empresa';
-import { EmpresaService } from '../../core/services/empresa.service';
-import { Linea } from '../../interfaces/linea';
-import { LineaService } from '../../core/services/linea.service';
-
 @Component({
   selector: 'app-carta-aceptacion',
   templateUrl: './carta-aceptacion.component.html',
@@ -17,59 +12,74 @@ import { LineaService } from '../../core/services/linea.service';
   imports: [FormsModule, CommonModule]
 })
 export class CartaAceptacionComponent implements OnInit {
-  studentData: any = {};  // Inicializa con un objeto vacío
-  companyData: any = {};  // Inicializa con un objeto vacío
-  companies: Empresa[] = [];
-  careerLines: Linea[] = [];
+  studentData: any = {};  // Datos del estudiante
+  companyData: any = {};  // Datos de la empresa nueva (opcional)
+  companies: any[] = [];  // Empresas cargadas desde el backend
+  careerLines: any[] = [];  // Líneas de carrera cargadas desde el backend
   selectedCompany: number | null = null;
   selectedCareerLine: number | null = null;
 
   helpPhone: string = '994343419';
   helpEmail: string = 'support@example.com';
-  showConfirmation: boolean = false; // Nueva propiedad para mostrar el mensaje de confirmación
+  showConfirmation: boolean = false; // Para mostrar el mensaje de confirmación
 
   constructor(
     private http: HttpClient,
-    private empresaService: EmpresaService,
-    private lineaService: LineaService,
-    private toastr: ToastrService // Inyectamos ToastrService
-  ) { }
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit(): void {
-    this.loadCompanies();
-    this.loadCareerLines();
+    this.loadInitialData();
   }
-
-  loadCompanies() {
-    this.empresaService.getEmpresas().subscribe((data: Empresa[]) => {
-      this.companies = data;
-    });
-  }
-
-  loadCareerLines() {
-    this.lineaService.getLineas().subscribe((data: Linea[]) => {
-      this.careerLines = data;
-    });
+  
+  loadInitialData() {
+    this.http.get<any>('http://localhost:8080/api/solicitud/inicial').subscribe(
+      (data) => {
+        this.companies = data.empresas;
+        this.careerLines = data.lineasCarrera;
+      },
+      (error) => {
+        this.toastr.error('Error al cargar los datos iniciales', 'Error');
+        console.error(error);
+      }
+    );
   }
 
   validateAndSubmit() {
-    // Verificar si los datos del estudiante están completos
+    // Validar los datos
     const isStudentDataComplete = this.studentData.name && this.studentData.studentCode && this.studentData.dni && this.studentData.phone && this.studentData.email;
-
-    // Verificar si se seleccionó empresa y línea de carrera
     const isCompanyAndCareerSelected = this.selectedCompany && this.selectedCareerLine;
-
-    // Verificar si los datos de la empresa están completos
     const isCompanyDataComplete = this.companyData.name && this.companyData.ruc && this.companyData.address && this.companyData.phone;
-
-    // Validar condiciones
+  
     if (isStudentDataComplete && (isCompanyAndCareerSelected || isCompanyDataComplete)) {
-      // Si se cumplen las condiciones, mostrar mensaje de confirmación y notificación de éxito
-      this.showConfirmation = true;
-      this.toastr.success('Datos enviados exitosamente.', 'Éxito');
+      // Preparar los datos para enviar
+      const solicitudData = {
+        estudiante: {
+          codigo: this.studentData.studentCode, // Aquí pasamos el código del estudiante
+          nombre: this.studentData.name
+        },
+        idEmpresa: this.selectedCompany,
+        idLineaCarrera: this.selectedCareerLine,
+        nombreEmpresa: this.companyData.name || null,
+        rucEmpresa: this.companyData.ruc || null,
+        direccionEmpresa: this.companyData.address || null,
+        telefonoEmpresa: this.companyData.phone || null,
+        correoEmpresa: this.companyData.email || null,
+      };
+  
+      // Enviar los datos al backend
+      this.http.post('http://localhost:8080/api/solicitud/inicial', solicitudData).subscribe(
+        () => {
+          this.showConfirmation = true;
+          this.toastr.success('Datos enviados exitosamente', 'Éxito');
+        },
+        (error) => {
+          this.toastr.error('Error al enviar la solicitud', 'Error');
+          console.error(error);
+        }
+      );
     } else {
-      // Mostrar alerta si no se cumplen las condiciones y notificación de error
-      this.toastr.error('Por favor, complete los datos requeridos.', 'Error');
+      this.toastr.error('Por favor, complete los datos requeridos', 'Error');
     }
   }
 }

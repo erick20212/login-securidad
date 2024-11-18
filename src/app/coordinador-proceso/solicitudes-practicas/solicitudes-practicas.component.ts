@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { NgClass, NgIf } from '@angular/common'; // Importar NgClass y NgIf directamente
+import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
+import { CommonModule, NgClass, NgIf } from '@angular/common';
 import { DetalleSolicitudComponent } from './detalle-solicitud/detalle-solicitud.component';
 
 interface Proceso {
@@ -13,18 +14,35 @@ interface Proceso {
 
 @Component({
   selector: 'app-solicitudes-practicas',
-  standalone: true,
-  imports: [CommonModule, DetalleSolicitudComponent, NgClass, NgIf], // Asegúrate de incluir NgClass y NgIf
+  standalone:true,
+  imports: [CommonModule, NgClass, NgIf, DetalleSolicitudComponent],
   templateUrl: './solicitudes-practicas.component.html',
-  styleUrls: ['./solicitudes-practicas.component.css'],
+  styleUrls: ['./solicitudes-practicas.component.css']
 })
-export class SolicitudesPracticasComponent {
-  procesos: Proceso[] = [
-    { nombre: 'Empresa 001', codigo: '202420900', empresa: 'Apple', ruc: '20100020004', estado: 'En espera' },
-    { nombre: 'Empresa 002', codigo: '202420901', empresa: 'Microsoft', ruc: '20100020005', estado: 'En proceso' },
-  ];
-
+export class SolicitudesPracticasComponent implements OnInit {
+  procesos: Proceso[] = [];
   procesoSeleccionado: Proceso | null = null;
+
+  // Flags para mostrar las ventanas de confirmación
+  showConfirmRechazo: boolean = false;
+  showConfirmAceptar: boolean = false;
+
+  constructor(private http: HttpClient, private toastr: ToastrService) {}
+
+  ngOnInit(): void {
+    this.cargarSolicitudes();
+  }
+
+  cargarSolicitudes(): void {
+    this.http.get<Proceso[]>('http://localhost:8080/api/solicitud').subscribe(
+      (data) => {
+        this.procesos = data;
+      },
+      (error) => {
+        this.toastr.error('Error al cargar las solicitudes', 'Error');
+      }
+    );
+  }
 
   mostrarDetalle(proceso: Proceso): void {
     this.procesoSeleccionado = proceso;
@@ -32,5 +50,31 @@ export class SolicitudesPracticasComponent {
 
   cerrarDetalle(): void {
     this.procesoSeleccionado = null;
+  }
+
+  confirmarRechazo(): void {
+    this.showConfirmRechazo = true;
+  }
+
+  cancelarRechazo(): void {
+    this.showConfirmRechazo = false;
+  }
+
+  rechazarSolicitud(): void {
+    this.showConfirmRechazo = false;
+    this.toastr.warning('Solicitud rechazada', 'Rechazada');
+  }
+
+  confirmarAceptar(): void {
+    this.showConfirmAceptar = true;
+  }
+
+  cancelarAceptar(): void {
+    this.showConfirmAceptar = false;
+  }
+
+  aceptarSolicitud(): void {
+    this.showConfirmAceptar = false;
+    this.toastr.success('Solicitud aceptada', 'Aceptada');
   }
 }

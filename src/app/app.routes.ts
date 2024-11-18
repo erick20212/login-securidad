@@ -8,6 +8,8 @@ import { ListaProcesosComponent } from './estudiante-proceso/lista-procesos/list
 import { RegistroPracticasComponent } from './estudiante-proceso/registro-practicas/registro-practicas.component';
 import { SolicitudesPracticasComponent } from './coordinador-proceso/solicitudes-practicas/solicitudes-practicas.component';
 import { DetalleSolicitudComponent } from './coordinador-proceso/solicitudes-practicas/detalle-solicitud/detalle-solicitud.component';
+import { ListaSolicitudesAprobadasComponent } from './coordinador-proceso/lista-solicitudes-aprobadas/lista-solicitudes-aprobadas.component';
+import { DetalleAprobacionComponent } from './coordinador-proceso/lista-solicitudes-aprobadas/detalle-aprobacion/detalle-aprobacion.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -42,8 +44,21 @@ export const routes: Routes = [
         data: { roles: ['coordinador'] } 
       },
       { 
-        path: 'lista-solicitudes/:id', 
+        path: 'lista-solicitudes/id', 
         component: DetalleSolicitudComponent, 
+        canActivate: [AuthGuard], 
+        data: { roles: ['coordinador'] } 
+      },
+
+      { 
+        path: 'lista-solicitudes-aprobadas', 
+        component: ListaSolicitudesAprobadasComponent, 
+        canActivate: [AuthGuard], 
+        data: { roles: ['coordinador'] } 
+      },
+      { 
+        path: 'lista-solicitudes-aprobadas/id', 
+        component: DetalleAprobacionComponent, 
         canActivate: [AuthGuard], 
         data: { roles: ['coordinador'] } 
       }

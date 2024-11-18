@@ -23,11 +23,17 @@
           {{ proceso.estado }}
         </span>
       </p>
+      
+      <!-- Íconos de Ver detalles, Rechazar y Aceptar -->
       <button class="view-button" (click)="mostrarDetalle(proceso)">
-        <i class="fas fa-eye"></i>
+        <i class="fas fa-eye"></i> 
       </button>
-    </div>
-  </div>
+      
+       <!-- Íconos para rechazar y aceptar -->
+       <i class="fas fa-times reject-icon" (click)="confirmarRechazo()"></i> <!-- Ícono de rechazar -->
+       <i class="fas fa-check accept-icon" (click)="confirmarAceptar()"></i> <!-- Ícono de aceptar -->
+     </div>
+   </div>
 
   <!-- Modal de Detalle -->
   <app-detalle-solicitud
@@ -35,4 +41,33 @@
     [proceso]="procesoSeleccionado"
     (cerrar)="cerrarDetalle()"
   ></app-detalle-solicitud>
+
+  <!-- Ventana emergente para confirmación de rechazo -->
+<div *ngIf="showConfirmRechazo" class="confirm-modal">
+  <div class="confirm-content">
+    <div class="confirm-header">
+      <i class="fas fa-exclamation-triangle"></i> <!-- Icono de advertencia -->
+    </div>
+    <p>¿Está seguro que desea rechazar esta empresa?</p>
+    <div class="confirm-actions">
+      <!-- Botones de Confirmar y Cancelar -->
+      <button class="btn-confirmar" (click)="rechazarSolicitud()">Sí, Rechazar</button>
+      <button class="btn-cancelar" (click)="cancelarRechazo()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Ventana emergente para confirmación de aceptación -->
+<div *ngIf="showConfirmAceptar" class="confirm-modal">
+  <div class="confirm-content">
+    <div class="confirm-header">
+      <i class="fas fa-exclamation-circle"></i> <!-- Icono de advertencia -->
+    </div>
+    <p>¿Está seguro que desea aceptar esta empresa?</p>
+    <div class="confirm-actions">
+      <!-- Botones de Confirmar y Cancelar -->
+      <button class="btn-confirmar" (click)="aceptarSolicitud()">Sí, Aceptar</button>
+      <button class="btn-cancelar" (click)="cancelarAceptar()">Cancelar</button>
+    </div>
+  </div>
 </div>
