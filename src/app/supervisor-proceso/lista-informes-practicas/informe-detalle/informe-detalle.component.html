@@ -1,0 +1,100 @@
+<!-- Modal Principal -->
+<div *ngIf="isModalVisible" class="modal-overlay">
+  <div class="modal-container">
+    <div class="modal-header">
+      <h2>Estudiante</h2>
+      <button class="close-button" (click)="closeModal()">×</button>
+    </div>
+
+    <div class="modal-body">
+      <!-- Datos del estudiante -->
+      <div class="section">
+        <h3 class="section-title">Datos Estudiante:</h3>
+        <div class="data-grid">
+          <p><strong>Estudiante:</strong> Practicante 000</p>
+          <p><strong>DNI:</strong> 12345678</p>
+          <p><strong>Programa de estudio por plan:</strong> Ingeniería de Sistemas</p>
+          <p><strong>Código de alumno:</strong> 202420800</p>
+          <p><strong>Semestre:</strong> VII</p>
+          <p><strong>Línea de trabajo:</strong> Desarrollo de TI</p>
+        </div>
+      </div>
+
+      <!-- Datos de la empresa -->
+      <div class="section">
+        <h3 class="section-title">Datos Empresa:</h3>
+        <div class="data-grid">
+          <p><strong>Nombre:</strong> IBM</p>
+          <p><strong>Número de RUC:</strong> 20100020003</p>
+          <p><strong>Correo electrónico:</strong> gerenciape.ibm.com</p>
+        </div>
+      </div>
+
+      <!-- Carta de finalización -->
+      <div class="section">
+        <h3 class="section-title">Carta de Finalización:</h3>
+        <div class="documents">
+          <div class="document-item">
+            <i class="fas fa-file-alt document-icon"></i>
+            <p>Carta de Finalización</p>
+            <i class="fas fa-download download-icon" (click)="showAlert('Descargando Carta de Finalización', 'info')"></i>
+          </div>
+          <div class="document-item">
+            <i class="fas fa-file-alt document-icon"></i>
+            <p>Convenido</p>
+            <i class="fas fa-download download-icon" (click)="showAlert('Descargando Convenido', 'info')"></i>
+          </div>
+          <div class="document-item">
+            <i class="fas fa-file-alt document-icon"></i>
+            <p>Plan PPP</p>
+            <i class="fas fa-download download-icon" (click)="showAlert('Descargando Plan PPP', 'info')"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn cancel-btn" (click)="closeModal()">Cancelar</button>
+      <button class="btn confirm-btn" (click)="showAlert('Operación enviada exitosamente', 'success')">Enviar</button>
+      <button class="btn delete-btn" (click)="openRejectModal()">Eliminar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Ventana de Confirmación para Rechazar -->
+<div *ngIf="isRejectModalVisible" class="modal-overlay">
+  <div class="modal-container small-modal">
+    <div class="modal-header">
+      <h2><i class="fas fa-exclamation-circle"></i> Confirmación</h2>
+      <button class="close-button" (click)="closeRejectModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <p>¿Está seguro que desea rechazar el documento finalización?</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn confirm-btn" (click)="proceedReject()">Sí, Rechazar</button>
+      <button class="btn cancel-btn" (click)="closeRejectModal()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Ventana para Realizar Comentario -->
+<div *ngIf="isCommentModalVisible" class="modal-overlay">
+  <div class="modal-container small-modal">
+    <div class="modal-header">
+      <h2><i class="fas fa-pen"></i> Realizar comentario</h2>
+      <button class="close-button" (click)="closeCommentModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <textarea class="comment-box" placeholder="Ingresar texto"></textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="btn confirm-btn" (click)="submitComment()">Enviar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Contenedor de alertas -->
+<div *ngIf="alertMessage" class="toast-container">
+  <div class="toast" [ngClass]="alertType">{{ alertMessage }}</div>
+</div>

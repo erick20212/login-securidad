@@ -1,0 +1,36 @@
+<div class="container">
+    <h1>Lista horas completadas</h1>
+    <div class="search-bar">
+      <input type="text" placeholder="Buscar..." />
+      <i class="filter-icon"></i>
+    </div>
+    <div class="list-item" *ngFor="let item of items">
+      <div class="item-info">
+        <p><strong>Nombre:</strong> {{ item.nombre }}</p>
+        <p><strong>Código:</strong> {{ item.codigo }}</p>
+      </div>
+      <div class="item-status">
+        <p><strong>Estado de hora:</strong> <span class="status-green">Completa 100%</span></p>
+      </div>
+      <div class="item-icon" (click)="openUploadModal()">
+        <i class="upload-icon"></i>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Ventana emergente -->
+  <div class="modal-overlay" *ngIf="isModalVisible">
+    <div class="modal-container">
+      <div class="modal-body">
+        <div class="modal-icon">
+          <i class="fas fa-exclamation-circle"></i>
+        </div>
+        <p>¿Está seguro que desea subir archivo de constancia?</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn confirm-btn" (click)="confirmUpload()">Sí, Confirmar</button>
+        <button class="btn cancel-btn" (click)="closeModal()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+  

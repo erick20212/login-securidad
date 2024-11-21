@@ -43,6 +43,8 @@ export class DashboardComponent implements OnInit {
       this.profileImage = 'https://img.freepik.com/fotos-premium/paloma-corbata-que-tiene-corbata_771335-50496.jpg';
     } else if (role === 'estudiante') {
       this.profileImage = 'https://i.pinimg.com/originals/e7/fd/e7/e7fde7197f89cac7846e66ad629287cc.jpg';
+    } else if (role === 'supervisor') {
+      this.profileImage = 'https://s1.significados.com/foto/paisaje-og.jpg';
     } else {
       console.warn('Unknown role, using default profile image');
       this.profileImage = 'https://i.pinimg.com/originals/e7/fd/e7/e7fde7197f89cac7846e66ad629287cc.jpg';

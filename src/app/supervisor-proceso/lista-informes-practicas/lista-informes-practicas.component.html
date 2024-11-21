@@ -1,0 +1,58 @@
+<div class="container">
+    <div class="header">
+      <h1>Lista de informes de Prácticas-Pre-Profesionales</h1>
+      <div class="actions">
+        <button class="search-button">
+          <i class="fas fa-search"></i>
+        </button>
+        <button class="filter-button">
+          <i class="fas fa-filter"></i>
+        </button>
+      </div>
+    </div>
+  
+    <div class="informe-list">
+      <div class="informe-item" (click)="openInformeDetalle()">
+        <div class="informe-info">
+          <p><strong>Nombre:</strong> Empresa 002</p>
+          <p><strong>Empresa:</strong> Apple</p>
+          <p><strong>Código:</strong> 202420900</p>
+          <p><strong>Número de RUC:</strong> 20100022004</p>
+        </div>
+        <div class="informe-status">
+          <p><strong>Estado:</strong> <span class="status">En Proceso</span></p>
+        </div>
+        <div class="informe-actions">
+          <i class="fas fa-file-alt"></i>
+          <i class="fas fa-file-alt"></i>
+          <i class="fas fa-file-alt"></i>
+        </div>
+      </div>
+    </div>
+    <div class="informe-list">
+        <div class="informe-item" (click)="openInformeDetalle()">
+          <div class="informe-info">
+            <p><strong>Nombre:</strong> Empresa 002</p>
+            <p><strong>Empresa:</strong> Apple</p>
+            <p><strong>Código:</strong> 202420900</p>
+            <p><strong>Número de RUC:</strong> 20100022004</p>
+          </div>
+          <div class="informe-status">
+            <p><strong>Estado:</strong> <span class="status">En Proceso</span></p>
+          </div>
+          <div class="informe-actions">
+            <i class="fas fa-file-alt"></i>
+            <i class="fas fa-file-alt"></i>
+            <i class="fas fa-file-alt"></i>
+          </div>
+        </div>
+      </div>
+  
+    <!-- Ventana emergente -->
+    <div *ngIf="isModalVisible" class="modal-overlay">
+      <div class="modal-content">
+        <app-informe-detalle (modalClosed)="closeInformeDetalle()"></app-informe-detalle>
+      </div>
+    </div>
+  </div>
+  

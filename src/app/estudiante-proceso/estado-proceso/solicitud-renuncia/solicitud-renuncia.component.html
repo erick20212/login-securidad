@@ -1,0 +1,42 @@
+<div *ngIf="isModalVisible" class="modal-overlay">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Solicitud de Renuncia</h2>
+      <button class="close-button" (click)="closeModal()">×</button>
+    </div>
+    <div class="form-container">
+      <div class="form-group">
+        <label for="estudiante">Estudiante:</label>
+        <input id="estudiante" type="text" placeholder="Practicante 001" disabled />
+      </div>
+      <div class="form-group">
+        <label for="dni">DNI:</label>
+        <input id="dni" type="text" placeholder="12345678" disabled />
+      </div>
+      <div class="form-group">
+        <label for="codigo">Código de alumno:</label>
+        <input id="codigo" type="text" placeholder="202420800" disabled />
+      </div>
+      <div class="form-group">
+        <label for="correo">Correo:</label>
+        <input id="correo" type="email" placeholder="practicante001@upeu.edu.pe" disabled />
+      </div>
+      <div class="form-group">
+        <label for="telefono">Teléfono:</label>
+        <input id="telefono" type="text" placeholder="904 785 258" disabled />
+      </div>
+      <div class="form-group">
+        <label for="direccion">Dirección de domicilio:</label>
+        <input id="direccion" type="text" placeholder="La Era Mz. 'D' Lt. 2 - Chosica" disabled />
+      </div>
+      <div class="form-group">
+        <label for="descripcion">Descripción:</label>
+        <textarea id="descripcion" rows="4" placeholder="Escribe una descripción..."></textarea>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn btn-primary" (click)="submitForm()">Confirmar</button>
+      <button class="btn btn-secondary" (click)="closeModal()">Cancelar</button>
+    </div>
+  </div>
+</div>

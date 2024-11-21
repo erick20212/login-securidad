@@ -1,0 +1,50 @@
+<div class="container">
+    <div class="header">
+      <button class="back-button">
+        <i class="fas fa-arrow-left"></i>
+      </button>
+      <h1>Informe final - Registro de documentos de la empresa</h1>
+    </div>
+  
+    <div class="upload-section">
+      <label for="file-upload" class="upload-button">
+        <i class="fas fa-upload"></i> Subir Archivos:
+      </label>
+      <input
+        type="file"
+        id="file-upload"
+        class="file-input"
+        (change)="onUploadFiles($event)"
+        multiple
+      />
+    </div>
+  
+    <div class="documents-grid">
+      <div class="document-item">
+        <i class="fas fa-file-alt document-icon"></i>
+        <p>Constancia de prácticas</p>
+      </div>
+      <div class="document-item">
+        <i class="fas fa-file-alt document-icon"></i>
+        <p>Evaluaciones de la empresa</p>
+      </div>
+      <div class="document-item">
+        <i class="fas fa-file-alt document-icon"></i>
+        <p>Evaluaciones de Prácticas</p>
+      </div>
+      <div class="document-item">
+        <i class="fas fa-file-alt document-icon"></i>
+        <p>Informe final</p>
+      </div>
+    </div>
+  
+    <div class="action-buttons">
+      <button class="cancel-button" (click)="onCancel()">
+        <i class="fas fa-times-circle"></i> Cancelar
+      </button>
+      <button class="confirm-button" (click)="onConfirm()">
+        <i class="fas fa-check-circle"></i> Confirmado
+      </button>
+    </div>
+  </div>
+  

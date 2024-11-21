@@ -1,0 +1,209 @@
+/* Fondo de superposición del modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  /* Contenedor del modal */
+  .modal-container {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 20px;
+    width: 90%;
+    max-width: 800px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+  }
+  
+  .small-modal {
+    max-width: 400px; /* Ajusta el ancho de las ventanas emergentes secundarias */
+    width: fit-content;
+  }
+  
+  /* Cabecera del modal */
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .modal-header h2 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: bold;
+  }
+  
+  .close-button {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #888;
+    cursor: pointer;
+  }
+  
+  /* Títulos de secciones (cuadrado azul reducido) */
+  .section-title {
+    background-color: #000080;
+    color: white;
+    padding: 6px 12px; /* Reducido el padding */
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    width: fit-content; /* Ancho ajustado al contenido */
+  }
+  
+  /* Datos del estudiante/empresa */
+  .data-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  
+  .data-grid p {
+    margin: 0;
+    font-size: 14px;
+    color: #555;
+  }
+  
+  /* Documentos */
+  .documents {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 15px;
+  }
+  
+  .document-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100px;
+    text-align: center;
+  }
+  
+  .document-icon {
+    font-size: 30px;
+    color: #2a2a9b;
+    margin-bottom: 5px;
+  }
+  
+  .download-icon {
+    font-size: 18px;
+    color: #888;
+    cursor: pointer;
+    margin-top: 5px;
+    transition: color 0.3s ease;
+  }
+  
+  .download-icon:hover {
+    color: #007bff;
+  }
+  
+  /* Pie del modal */
+  .modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  .btn {
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .cancel-btn {
+    background-color: #f44336;
+    color: white;
+  }
+  
+  .cancel-btn:hover {
+    background-color: #d32f2f;
+  }
+  
+  .confirm-btn {
+    background-color: #4caf50;
+    color: white;
+  }
+  
+  .confirm-btn:hover {
+    background-color: #45a049;
+  }
+  
+  .delete-btn {
+    background-color: #ffc107;
+    color: #333;
+  }
+  
+  .delete-btn:hover {
+    background-color: #e6b800;
+  }
+  
+  .toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1500;
+  }
+  
+  .toast {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    animation: slideIn 0.5s, slideOut 3s 3s forwards;
+  }
+  
+  .toast.success {
+    background-color: #4caf50;
+    color: #fff;
+  }
+  
+  .toast.error {
+    background-color: #f44336;
+    color: #fff;
+  }
+  
+  .toast.info {
+    background-color: #2196f3;
+    color: #fff;
+  }
+  
+  .toast.warning {
+    background-color: #ffc107;
+    color: #333;
+  }
+  
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateX(100%);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  @keyframes slideOut {
+    to {
+      opacity: 0;
+      transform: translateX(100%);
+    }
+  }

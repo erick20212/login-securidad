@@ -19,9 +19,17 @@
 
       <!-- Opciones exclusivas para el rol de usuario -->
       <li *ngIf="role === 'estudiante'">
+        <a routerLink="/dashboard/estado-proceso">
+          <fa-icon [icon]="faFileAlt"></fa-icon>
+          <span class="nav-item" *ngIf="!isCollapsed">Estado Proceso</span>
+        </a>
+      </li>
+
+
+      <li *ngIf="role === 'estudiante'">
         <a routerLink="/dashboard/carta-aceptacion">
           <fa-icon [icon]="faFileAlt"></fa-icon>
-          <span class="nav-item" *ngIf="!isCollapsed">Carta de Aceptación</span>
+          <span class="nav-item" *ngIf="!isCollapsed">Registro  Solicitud</span>
         </a>
       </li>
 
@@ -39,6 +47,20 @@
         </a>
       </li>
 
+      <li *ngIf="role === 'estudiante'">
+        <a routerLink="/dashboard/informe-final">
+          <fa-icon [icon]="faFileAlt"></fa-icon>
+          <span class="nav-item" *ngIf="!isCollapsed">Informe Final</span>
+        </a>
+      </li>
+
+      <li *ngIf="role === 'estudiante'">
+        <a routerLink="/dashboard/lista-horas-completas">
+          <fa-icon [icon]="faFileAlt"></fa-icon>
+          <span class="nav-item" *ngIf="!isCollapsed">Lista Horas Completas</span>
+        </a>
+      </li>
+
       <li *ngIf="role === 'coordinador'">
         <a routerLink="/dashboard/lista-solicitudes">
           <fa-icon [icon]="faFileAlt"></fa-icon>
@@ -50,6 +72,27 @@
         <a routerLink="/dashboard/lista-solicitudes-aprobadas">
           <fa-icon [icon]="faFileAlt"></fa-icon>
           <span class="nav-item" *ngIf="!isCollapsed">Lista Solicitudes aprobadas</span>
+        </a>
+      </li>
+
+      <li *ngIf="role === 'coordinador'">
+        <a routerLink="/dashboard/mantener">
+          <fa-icon [icon]="faFileAlt"></fa-icon>
+          <span class="nav-item" *ngIf="!isCollapsed">mantener</span>
+        </a>
+      </li>
+
+      <li *ngIf="role === 'supervisor'">
+        <a routerLink="/dashboard/listas-solicitudes-aprobadas">
+          <fa-icon [icon]="faFileAlt"></fa-icon>
+          <span class="nav-item" *ngIf="!isCollapsed">Lista Solicitudes aprobadas</span>
+        </a>
+      </li>
+
+      <li *ngIf="role === 'supervisor'">
+        <a routerLink="/dashboard/lista-informes-practicas">
+          <fa-icon [icon]="faFileAlt"></fa-icon>
+          <span class="nav-item" *ngIf="!isCollapsed">Lista Informe Practicas</span>
         </a>
       </li>
 

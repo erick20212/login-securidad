@@ -1,0 +1,101 @@
+/* Contenedor principal */
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+    color: #333;
+    padding: 20px;
+  }
+  
+  /* Sección de subida */
+  .upload-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+  }
+  
+  .upload-icon {
+    background-color: #2a2a9b;
+    color: white;
+    font-size: 48px;
+    padding: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .upload-section p {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  
+  /* Título principal */
+  h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  /* Sección de administración */
+  .admin-section {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+  
+  /* Tarjetas de administración */
+  .admin-card {
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+  }
+  
+  .admin-card h3 {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+  
+  /* Acciones dentro de cada tarjeta */
+  .admin-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+  
+  .action-item {
+    background-color: #eef1fb;
+    border-radius: 10px;
+    padding: 15px;
+    flex: 1;
+    max-width: 150px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .action-item i {
+    font-size: 24px;
+    color: #2a2a9b;
+    margin-bottom: 8px;
+  }
+  
+  .action-item p {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .action-item:hover {
+    background-color: #d7dbf8;
+  }
+  
+  /* Para pantallas más pequeñas */
+  @media (max-width: 768px) {
+    .admin-actions {
+      justify-content: center;
+    }
+  }
+  

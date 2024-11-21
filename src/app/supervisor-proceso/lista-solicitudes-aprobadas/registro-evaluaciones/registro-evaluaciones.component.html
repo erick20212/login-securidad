@@ -1,0 +1,85 @@
+<div class="modal-container">
+    <div class="modal-header">
+      <h2>Registro de Evaluaciones</h2>
+      <button class="close-button" (click)="closeModal()">×</button>
+    </div>
+  
+    <div class="modal-body">
+      <div class="session-buttons">
+        <button class="session active">Sesión 1</button>
+        <button class="session">Sesión 2</button>
+        <button class="session">Sesión 3</button>
+        <button class="add-session">+</button>
+      </div>
+  
+      <div class="evaluation-details">
+        <div class="evaluation-item">
+          <p>
+            Se evaluará la participación activa del practicante en las tareas asignadas, su proactividad para proponer ideas o mejoras, y su compromiso con el equipo y los objetivos del proyecto.
+          </p>
+          <div class="evaluation-options">
+            <button class="evaluation-btn check">✓</button>
+            <button class="evaluation-btn cross">✕</button>
+            <button class="evaluation-btn remove">−</button>
+          </div>
+        </div>
+  
+        <div class="evaluation-item">
+          <p>
+            Se evaluará la capacidad del practicante para aplicar conocimientos técnicos en situaciones reales, su rapidez de aprendizaje en el uso de herramientas, y la calidad de las soluciones propuestas ante problemas específicos.
+          </p>
+          <div class="evaluation-options">
+            <button class="evaluation-btn check">✓</button>
+            <button class="evaluation-btn cross">✕</button>
+            <button class="evaluation-btn remove">−</button>
+          </div>
+        </div>
+  
+        <div class="evaluation-item">
+          <p>
+            Se evaluará la habilidad del practicante para colaborar eficazmente con sus compañeros, su claridad al comunicar avances o dificultades, y su disposición para recibir y aplicar retroalimentación de manera constructiva.
+          </p>
+          <div class="evaluation-options">
+            <button class="evaluation-btn check">✓</button>
+            <button class="evaluation-btn cross">✕</button>
+            <button class="evaluation-btn remove">−</button>
+          </div>
+        </div>
+  
+        <div class="upload-section">
+          <label for="file-upload" class="upload-icon">
+            <i class="fas fa-plus"></i>
+          </label>
+          <input
+            type="file"
+            id="file-upload"
+            class="file-input"
+            (change)="onFileUpload($event)"
+            accept=".pdf,.doc,.docx"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn save-btn" (click)="openConfirmationModal('save')">Guardar sesión</button>
+      <button class="btn delete-btn" (click)="openConfirmationModal('delete')">Eliminar sesión</button>
+    </div>
+    
+  <!-- Ventana emergente de confirmación -->
+  <div *ngIf="isConfirmationModalVisible" class="confirmation-overlay">
+    <div class="confirmation-modal">
+      <div class="confirmation-header">
+        <h3>Confirmación</h3>
+        <button class="close-button" (click)="closeConfirmationModal()">×</button>
+      </div>
+      <div class="confirmation-body">
+        <p>{{ confirmationMessage }}</p>
+        <hr />
+      </div>
+      <div class="confirmation-footer">
+        <button class="btn cancel-btn" (click)="closeConfirmationModal()">Cancelar</button>
+        <button class="btn action-btn" (click)="confirmAction()">{{ confirmationButtonText }}</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -10,6 +10,15 @@ import { SolicitudesPracticasComponent } from './coordinador-proceso/solicitudes
 import { DetalleSolicitudComponent } from './coordinador-proceso/solicitudes-practicas/detalle-solicitud/detalle-solicitud.component';
 import { ListaSolicitudesAprobadasComponent } from './coordinador-proceso/lista-solicitudes-aprobadas/lista-solicitudes-aprobadas.component';
 import { DetalleAprobacionComponent } from './coordinador-proceso/lista-solicitudes-aprobadas/detalle-aprobacion/detalle-aprobacion.component';
+import { EstadoProcesoComponent } from './estudiante-proceso/estado-proceso/estado-proceso.component';
+import { SolicitudRenunciaComponent } from './estudiante-proceso/estado-proceso/solicitud-renuncia/solicitud-renuncia.component';
+import { ListasSolicitudesAprobadasComponent } from './supervisor-proceso/lista-solicitudes-aprobadas/listas-solicitudes-aprobadas.component';
+import { InformeFinalComponent } from './estudiante-proceso/informe-final/informe-final.component';
+import { ListaInformesPracticasComponent } from './supervisor-proceso/lista-informes-practicas/lista-informes-practicas.component';
+import { InformeDetalleComponent } from './supervisor-proceso/lista-informes-practicas/informe-detalle/informe-detalle.component';
+import { ListaHorasCompletasComponent } from './estudiante-proceso/lista-horas-completas/lista-horas-completas.component';
+import { MantenerComponent } from './coordinador-proceso/mantener/mantener.component';
+
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -38,6 +47,30 @@ export const routes: Routes = [
         data: { roles: ['estudiante'] } 
       },
       { 
+        path: 'estado-proceso', 
+        component: EstadoProcesoComponent, 
+        canActivate: [AuthGuard], 
+        data: { roles: ['estudiante'] } 
+      },
+      { 
+        path: 'estado-proceso/id', 
+        component: SolicitudRenunciaComponent, 
+        canActivate: [AuthGuard], 
+        data: { roles: ['estudiante'] } 
+      },
+      { 
+        path: 'informe-final', 
+        component: InformeFinalComponent, 
+        canActivate: [AuthGuard], 
+        data: { roles: ['estudiante'] } 
+      },
+      { 
+        path: 'lista-horas-completas', 
+        component: ListaHorasCompletasComponent, 
+        canActivate: [AuthGuard], 
+        data: { roles: ['estudiante'] } 
+      },
+      { 
         path: 'lista-solicitudes', 
         component: SolicitudesPracticasComponent, 
         canActivate: [AuthGuard], 
@@ -61,6 +94,30 @@ export const routes: Routes = [
         component: DetalleAprobacionComponent, 
         canActivate: [AuthGuard], 
         data: { roles: ['coordinador'] } 
+      },
+      { 
+        path: 'mantener', 
+        component: MantenerComponent, 
+        canActivate: [AuthGuard], 
+        data: { roles: ['coordinador'] } 
+      },
+      { 
+        path: 'listas-solicitudes-aprobadas', 
+        component: ListasSolicitudesAprobadasComponent, 
+        canActivate: [AuthGuard], 
+        data: { roles: ['supervisor'] } 
+      },
+      { 
+        path: 'lista-informes-practicas', 
+        component: ListaInformesPracticasComponent, 
+        canActivate: [AuthGuard], 
+        data: { roles: ['supervisor'] } 
+      },
+      { 
+        path: 'lista-informes-practicas/id', 
+        component: InformeDetalleComponent, 
+        canActivate: [AuthGuard], 
+        data: { roles: ['supervisor'] } 
       }
     ]
   },

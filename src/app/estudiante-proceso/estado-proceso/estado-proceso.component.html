@@ -1,0 +1,85 @@
+<div class="main-container">
+  <!-- Header -->
+  <div class="header">
+    <div class="back-button">
+      <i class="fas fa-arrow-left"></i>
+    </div>
+    <h1>Estado del proceso</h1>
+  </div>
+
+  <div class="content-container">
+    <!-- Left Column -->
+    <div class="process-list">
+      <div class="process-item" *ngFor="let item of processItems; let i = index">
+        <div class="process-item-content">
+          <div class="item-title">{{ item.title }}</div>
+          <div class="item-actions">
+            <i class="fas fa-cloud-upload-alt upload-icon"></i>
+            <label [for]="'file-upload-' + i" class="upload-label">
+              <span>Adjuntar</span>
+            </label>
+            <input
+              [id]="'file-upload-' + i"
+              type="file"
+              class="file-input"
+              (change)="onFileUpload($event, i)"
+              [accept]="'.pdf,.doc,.docx'"
+            >
+            <button *ngIf="item.status === 'confirmado'" class="confirm-btn">
+              Confirmado
+            </button>
+            <span *ngIf="item.status === 'en-proceso'" class="status-badge en-proceso">
+              En proceso
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column -->
+    <div class="info-section">
+      <div class="info-card">
+        <div class="practitioner-header">
+          <i class="fas fa-user-circle"></i>
+          <span>{{ practitioner.id }}</span>
+        </div>
+        <div class="info-rows">
+          <div class="info-row">
+            <span class="label">Fecha inicio</span>
+            <div class="date-field">
+              <span>{{ practitioner.startDate }}</span>
+              <i class="fas fa-calendar"></i>
+            </div>
+          </div>
+          <div class="info-row">
+            <span class="label">Fecha Fin</span>
+            <div class="date-field">
+              <span>{{ practitioner.endDate }}</span>
+              <i class="fas fa-calendar"></i>
+            </div>
+          </div>
+          <div class="info-row">
+            <span class="label">Supervisor:</span>
+            <span>{{ practitioner.supervisor }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Progress Circle -->
+      <div class="progress-card">
+        <div class="progress-circle" [style.--progress]="progressPercentage">
+          <div class="circle-text">
+            <span class="percentage">{{ progressPercentage.toString().padStart(2, '0') }}</span>
+            <span class="percent-symbol">%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Resignation Button -->
+      <button class="renuncia-btn" (click)="openRenunciaModal()">Renuncia</button>
+    </div>
+  </div>
+
+  <!-- Modal Component -->
+  <app-solicitud-renuncia></app-solicitud-renuncia>
+</div>
