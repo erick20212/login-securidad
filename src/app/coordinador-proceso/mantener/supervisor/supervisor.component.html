@@ -18,39 +18,39 @@
       </div>
     </div>
   </div>
-  
-  <!-- Dialog para agregar Supervisor -->
-  <p-dialog header="Agregar Supervisor" [(visible)]="isDialogVisible" [modal]="true" [closable]="true" [responsive]="true" [style]="{width: '450px'}">
+  <p-dialog header="Agregar Supervisor" [(visible)]="isDialogVisible" [modal]="true" [responsive]="true" width="400">
     <div class="p-fluid">
       <div class="p-field">
         <label for="nombre">Nombre</label>
-        <input id="nombre" type="text" pInputText [(ngModel)]="supervisor.nombre" required [ngClass]="{'p-invalid': submitted && !supervisor.nombre}" />
-        <small *ngIf="submitted && !supervisor.nombre" class="p-error">El nombre es obligatorio.</small>
+        <input id="nombre" [(ngModel)]="supervisor.nombre" pInputText />
       </div>
   
       <div class="p-field">
         <label for="apellido">Apellido</label>
-        <input id="apellido" type="text" pInputText [(ngModel)]="supervisor.apellido" required [ngClass]="{'p-invalid': submitted && !supervisor.apellido}" />
-        <small *ngIf="submitted && !supervisor.apellido" class="p-error">El apellido es obligatorio.</small>
+        <input id="apellido" [(ngModel)]="supervisor.apellido" pInputText />
       </div>
   
       <div class="p-field">
         <label for="email">Email</label>
-        <input id="email" type="email" pInputText [(ngModel)]="supervisor.email" required [ngClass]="{'p-invalid': submitted && !supervisor.email}" />
-        <small *ngIf="submitted && !supervisor.email" class="p-error">El email es obligatorio y debe ser válido.</small>
+        <input id="email" [(ngModel)]="supervisor.emailPersona" pInputText />
       </div>
   
       <div class="p-field">
         <label for="dni">DNI</label>
-        <input id="dni" type="text" pInputText [(ngModel)]="supervisor.dni" required [ngClass]="{'p-invalid': submitted && !supervisor.dni}" />
-        <small *ngIf="submitted && !supervisor.dni" class="p-error">El DNI es obligatorio.</small>
+        <input id="dni" [(ngModel)]="supervisor.dni" pInputText />
       </div>
-  
-      <p-footer>
-        <button type="button" pButton label="Cancelar" icon="pi pi-times" (click)="closeDialog()"></button>
-        <button type="button" pButton label="Guardar" icon="pi pi-check" (click)="saveSupervisor()"></button>
-      </p-footer>
     </div>
+  
+    <p-footer>
+      <button 
+      pButton 
+      label="Guardar" 
+      icon="pi pi-check" 
+      (click)="saveSupervisor()" 
+      [disabled]="!supervisor.nombre || !supervisor.apellido || !supervisor.emailPersona || !supervisor.dni">
+    </button>    
+          <button pButton label="Cancelar" icon="pi pi-times" (click)="closeDialog()"></button>
+    </p-footer>
   </p-dialog>
   
   <!-- Notificación de éxito -->
@@ -86,7 +86,7 @@
               icon="pi pi-pencil"
               class="p-button-sm p-button-rounded p-button-info"
               title="Editar"
-              (click)="editSupervisor(supervisor)"
+              (click)="(supervisor)"
             ></button>
             <button
               pButton

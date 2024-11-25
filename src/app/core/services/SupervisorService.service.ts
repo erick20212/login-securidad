@@ -7,7 +7,7 @@ import { PersonaUsuarioDTO, SupervisorDTO } from '../../interfaces/mantener';
   providedIn: 'root'
 })
 export class SupervisorService {
-  private readonly apiUrl = 'http://localhost:8080/api'; 
+  private readonly apiUrl = 'http://localhost:8080/api'; // Cambiar la URL según sea necesario
 
   constructor(private http: HttpClient) {}
 
@@ -35,7 +35,7 @@ export class SupervisorService {
     return this.http.get<SupervisorDTO[]>(url).pipe(
       catchError((error) => {
         console.error('Error al obtener supervisores:', error);
-        return of([]);
+        return of([]);  // Devolver un array vacío en caso de error
       })
     );
   }
@@ -46,7 +46,7 @@ export class SupervisorService {
    * @returns Observable con la respuesta del servidor.
    */
   updateSupervisor(supervisor: SupervisorDTO): Observable<any> {
-    const url = `${this.apiUrl}/supervisores/${supervisor.id}`;
+    const url = `${this.apiUrl}/supervisores/${supervisor.id}`;  // Usar el id del supervisor
     return this.http.put(url, supervisor).pipe(
       catchError((error) => {
         console.error('Error al actualizar el supervisor:', error);

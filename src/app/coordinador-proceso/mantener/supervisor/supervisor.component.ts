@@ -27,12 +27,8 @@ export class SupervisorComponent implements OnInit {
   selectedSupervisor: SupervisorDTO | null = null;
 
   // Usamos PersonaUsuarioDTO solo para insertar un nuevo supervisor
-  supervisor: PersonaUsuarioDTO = {
-    nombre: '',
-    apellido: '',
-    email: '',
-    dni: ''
-  };
+  supervisor: PersonaUsuarioDTO = { nombre: '', apellido: '', emailPersona: '', dni: '' };
+
 
   supervisores2: SupervisorDTO[] = [];
 
@@ -58,18 +54,22 @@ export class SupervisorComponent implements OnInit {
   // Guardar un nuevo supervisor
   saveSupervisor(): void {
     this.submitted = true;
-
-    if (this.supervisor.nombre && this.supervisor.apellido && this.supervisor.email && this.supervisor.dni) {
+    console.log(this.supervisor); // Imprimir valores actuales
+    // Validación de los campos (asegúrate de que los campos sean completos)
+    if (this.supervisor.nombre && this.supervisor.apellido && this.supervisor.emailPersona && this.supervisor.dni) {
       this.supervisorService.saveSupervisor(this.supervisor).subscribe({
         next: () => {
           this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Supervisor guardado.' });
           this.isDialogVisible = false;
-          this.loadSupervisors();
+          this.loadSupervisors(); // Cargar la lista de supervisores después de guardar
         },
-        error: () => {
+        error: (err) => {
           this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudo guardar el supervisor.' });
+          console.error('Error al guardar supervisor:', err);
         }
       });
+    } else {
+      this.messageService.add({ severity: 'warn', summary: 'Advertencia', detail: 'Todos los campos son obligatorios.' });
     }
   }
 
@@ -84,8 +84,13 @@ export class SupervisorComponent implements OnInit {
   // Abrir el diálogo para agregar un supervisor
   openAddSupervisorDialog(): void {
     this.isDialogVisible = true;
-    this.supervisor = { nombre: '', apellido: '', email: '', dni: '' }; // Limpiar el formulario
-  }
+    this.supervisor = { 
+      nombre: '', 
+      apellido: '', 
+      emailPersona: '', 
+      dni: '' 
+    }; // Limpiar el formulario
+    }
 
   // Abrir el diálogo para listar supervisores
   openListSupervisorsDialog(): void {
@@ -110,19 +115,6 @@ export class SupervisorComponent implements OnInit {
         }
       })
     });
-  }
-
-  editSupervisor(supervisor: SupervisorDTO): void {
-    this.selectedSupervisor = supervisor;
-    this.supervisor = {
-        id: supervisor.id,         // Incluye el ID para actualizaciones
-        nombre: supervisor.nombre,
-        apellido: supervisor.apellido,
-        email: supervisor.email, // Ajustar para PersonaUsuarioDTO
-        dni: supervisor.dni
-    };
-    this.isDialogVisible = true;
-}
-  
+  }  
   
 }
