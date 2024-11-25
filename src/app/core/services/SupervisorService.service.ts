@@ -45,28 +45,33 @@ export class SupervisorService {
    * @param supervisor Datos del supervisor a actualizar.
    * @returns Observable con la respuesta del servidor.
    */
-  updateSupervisor(supervisor: SupervisorDTO): Observable<any> {
-    const url = `${this.apiUrl}/supervisores/${supervisor.id}`;  // Usar el id del supervisor
-    return this.http.put(url, supervisor).pipe(
-      catchError((error) => {
-        console.error('Error al actualizar el supervisor:', error);
-        return of({ success: false, message: 'No se pudo actualizar el supervisor' });
-      })
-    );
-  }
+/**
+ * Actualizar un supervisor.
+ * @param supervisor SupervisorDTO con los datos a actualizar.
+ * @returns Observable con la respuesta del servidor.
+ */
+updateSupervisor(supervisor: SupervisorDTO): Observable<any> {
+  const url = `${this.apiUrl}/supervisores/${supervisor.id}`; // Construir la URL con el ID del supervisor
+  return this.http.put(url, supervisor).pipe(
+    catchError((error) => {
+      console.error('Error al actualizar el supervisor:', error); // Log del error en consola
+      return of({ success: false, message: 'No se pudo actualizar el supervisor' }); // Respuesta de error genérica
+    })
+  );
+}
 
-  /**
-   * Eliminar un supervisor.
-   * @param supervisorId ID del supervisor a eliminar.
-   * @returns Observable con la respuesta del servidor.
-   */
-  deleteSupervisor(supervisorId: number): Observable<any> {
-    const url = `${this.apiUrl}/supervisores/eliminar/${supervisorId}`;
-    return this.http.delete(url).pipe(
-      catchError((error) => {
-        console.error('Error al eliminar el supervisor:', error);
-        return of({ success: false, message: 'No se pudo eliminar el supervisor' });
-      })
-    );
-  }
+/**
+ * Eliminar un supervisor.
+ * @param supervisorId ID del supervisor a eliminar.
+ * @returns Observable con la respuesta del servidor.
+ */
+deleteSupervisor(supervisorId: number): Observable<any> {
+  const url = `${this.apiUrl}/supervisores/${supervisorId}`; // Endpoint de eliminación
+  return this.http.delete(url).pipe(
+    catchError((error) => {
+      console.error('Error al eliminar el supervisor:', error); // Log del error en consola
+      return of({ success: false, message: 'No se pudo eliminar el supervisor' }); // Respuesta de error genérica
+    })
+  );
+}
 }

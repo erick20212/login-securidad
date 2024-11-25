@@ -62,46 +62,114 @@
   [closable]="true"
   [responsive]="true"
   [style]="{ width: '800px' }"
->
-  <div class="p-fluid supervisores-container">
-    <table class="supervisores-table">
-      <thead>
-        <tr>
-          <th>Nombre</th>
-          <th>Apellido</th>
-          <th>Email</th>
-          <th>DNI</th>
-          <th class="actions-header">Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let supervisor of supervisores2" class="supervisor-row">
-          <td>{{ supervisor.nombre }}</td>
-          <td>{{ supervisor.apellido }}</td>
-          <td>{{ supervisor.email }}</td>
-          <td>{{ supervisor.dni }}</td>
-          <td class="supervisor-actions">
-            <button
-              pButton
-              icon="pi pi-pencil"
-              class="p-button-sm p-button-rounded p-button-info"
-              title="Editar"
-              (click)="(supervisor)"
-            ></button>
-            <button
-              pButton
-              icon="pi pi-trash"
-              class="p-button-sm p-button-rounded p-button-danger"
-              title="Eliminar"
-              (click)="deleteSupervisor(supervisor.id)"
-            ></button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <!-- Mensaje cuando no hay supervisores -->
-    <div class="no-supervisores" *ngIf="supervisores2.length === 0">
-      <p>No hay supervisores disponibles.</p>
-    </div>
+><div class="p-fluid supervisores-container">
+  <table class="supervisores-table">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Email</th>
+        <th>DNI</th>
+        <th class="actions-header">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let supervisor of supervisores2" class="supervisor-row">
+        <td>{{ supervisor.nombre }}</td>
+        <td>{{ supervisor.apellido }}</td>
+        <td>{{ supervisor.email }}</td>
+        <td>{{ supervisor.dni }}</td>
+        <td class="supervisor-actions">
+          <!-- Botón para editar -->
+          <button
+            pButton
+            icon="pi pi-pencil"
+            class="p-button-sm p-button-rounded p-button-info"
+            title="Editar"
+            (click)="editSupervisor(supervisor)"
+          ></button>
+          <!-- Botón para eliminar -->
+          <button
+            pButton
+            icon="pi pi-trash"
+            class="p-button-sm p-button-rounded p-button-danger"
+            title="Eliminar"
+            (click)="deleteSupervisor(supervisor.id)"
+          ></button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- Mensaje cuando no hay supervisores -->
+  <div class="no-supervisores" *ngIf="supervisores2.length === 0">
+    <p>No hay supervisores disponibles.</p>
   </div>
+
+  <!-- Cuadro de diálogo para editar supervisor -->
+  <p-dialog
+    header="Editar Supervisor"
+    [(visible)]="displayEditDialog"
+    [modal]="true"
+    [closable]="false"
+    [responsive]="true"
+    [style]="{ width: '400px' }"
+    >
+    <form #editForm="ngForm" (ngSubmit)="updateSupervisor()">
+      <div class="p-field">
+        <label for="nombre">Nombre:</label>
+        <input
+          type="text"
+          id="nombre"
+          [(ngModel)]="selectedSupervisor.nombre"
+          name="nombre"
+          pInputText
+          required
+        />
+      </div>
+      <div class="p-field">
+        <label for="apellido">Apellido:</label>
+        <input
+          type="text"
+          id="apellido"
+          [(ngModel)]="selectedSupervisor.apellido"
+          name="apellido"
+          pInputText
+          required
+        />
+      </div>
+      <div class="p-field">
+        <label for="email">Email:</label>
+        <input
+          type="email"
+          id="email"
+          [(ngModel)]="selectedSupervisor.email"
+          name="email"
+          pInputText
+          required
+        />
+      </div>
+      <div class="p-field">
+        <label for="dni">DNI:</label>
+        <input
+          type="text"
+          id="dni"
+          [(ngModel)]="selectedSupervisor.dni"
+          name="dni"
+          pInputText
+          required
+        />
+      </div>
+      <div class="dialog-buttons">
+        <button pButton type="submit" label="Guardar" class="p-button-success"></button>
+        <button
+          pButton
+          type="button"
+          label="Cancelar"
+          class="p-button-secondary"
+          (click)="cancelEdit()"
+        ></button>
+      </div>
+    </form>
+  </p-dialog>
+</div>
 </p-dialog>

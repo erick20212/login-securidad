@@ -24,7 +24,8 @@ export class SupervisorComponent implements OnInit {
   isDialogVisible: boolean = false;
   isListDialogVisible: boolean = false;
   submitted: boolean = false;
-  selectedSupervisor: SupervisorDTO | null = null;
+  selectedSupervisor: any = {};
+  displayEditDialog: boolean = false; // Visibilidad del cuadro de diálogo
 
   // Usamos PersonaUsuarioDTO solo para insertar un nuevo supervisor
   supervisor: PersonaUsuarioDTO = { nombre: '', apellido: '', emailPersona: '', dni: '' };
@@ -117,4 +118,45 @@ export class SupervisorComponent implements OnInit {
     });
   }  
   
+    // Editar supervisor
+    editSupervisor(supervisor: SupervisorDTO) {
+      this.selectedSupervisor = { ...supervisor }; // Clonar datos para edición
+      this.displayEditDialog = true; // Mostrar el cuadro de diálogo
+    }
+
+// Actualizar supervisor
+updateSupervisor(): void {
+  if (!this.selectedSupervisor) {
+    console.error('No hay supervisor seleccionado para actualizar.');
+    return;
+  }
+
+  this.supervisorService.updateSupervisor(this.selectedSupervisor).subscribe({
+    next: () => {
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Éxito',
+        detail: 'Supervisor actualizado exitosamente.',
+      });
+      this.displayEditDialog = false; // Cierra el diálogo
+      this.loadSupervisors(); // Recargar la lista de supervisores
+    },
+    error: (error) => {
+      console.error('Error al actualizar el supervisor:', error);
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Ocurrió un problema al actualizar el supervisor.',
+      });
+    },
+  });
+}
+
+
+    // Cancelar edición
+    cancelEdit() {
+      this.displayEditDialog = false;
+      this.selectedSupervisor = null; // Limpiar datos temporales
+    }
+
 }
