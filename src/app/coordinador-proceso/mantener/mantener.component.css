@@ -1,101 +1,99 @@
-/* Contenedor principal */
-.container {
-    max-width: 900px;
-    margin: 0 auto;
-    font-family: Arial, sans-serif;
-    color: #333;
-    padding: 20px;
-  }
-  
-  /* Sección de subida */
-  .upload-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 30px;
-  }
-  
-  .upload-icon {
-    background-color: #2a2a9b;
-    color: white;
-    font-size: 48px;
-    padding: 20px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .upload-section p {
-    font-size: 18px;
-    font-weight: bold;
-    margin-top: 10px;
-  }
-  
-  /* Título principal */
-  h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
-  }
-  
-  /* Sección de administración */
-  .admin-section {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-  }
-  
-  /* Tarjetas de administración */
+/* Estilos para las tarjetas de administración */
+.admin-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin-bottom: 40px; /* Añadido para darle espacio en la parte inferior */
+}
+
+.admin-card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  padding: 20px;
+  text-align: center;
+  transition: transform 0.3s ease-in-out;
+  margin-bottom: 200px; /* Añadido para agregar margen inferior a cada tarjeta */
+}
+
+.admin-card:hover {
+  transform: translateY(-10px);
+}
+
+.admin-card h3 {
+  margin-bottom: 20px;
+  font-size: 20px;
+  color: #333;
+}
+
+.admin-actions {
+  display: flex;
+  flex-direction: column;
+}
+
+.action-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.action-item:hover {
+  background-color: #f1f1f1;
+  transform: translateX(5px);
+}
+
+.action-item i {
+  margin-right: 10px;
+  font-size: 20px;
+}
+
+.action-item p {
+  font-size: 16px;
+  margin: 0;
+}
+
+/* Estilos para dispositivos móviles */
+@media (max-width: 768px) {
   .admin-card {
-    background-color: #f9f9f9;
-    border-radius: 12px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    padding: 20px;
+    flex: 1 1 100%;
   }
-  
-  .admin-card h3 {
-    font-size: 20px;
-    margin-bottom: 15px;
-  }
-  
-  /* Acciones dentro de cada tarjeta */
-  .admin-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-  }
-  
-  .action-item {
-    background-color: #eef1fb;
-    border-radius: 10px;
-    padding: 15px;
-    flex: 1;
-    max-width: 150px;
-    text-align: center;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .action-item i {
-    font-size: 24px;
-    color: #2a2a9b;
-    margin-bottom: 8px;
-  }
-  
-  .action-item p {
-    font-size: 14px;
-    font-weight: bold;
-    color: #333;
-  }
-  
-  .action-item:hover {
-    background-color: #d7dbf8;
-  }
-  
-  /* Para pantallas más pequeñas */
-  @media (max-width: 768px) {
-    .admin-actions {
-      justify-content: center;
-    }
-  }
-  
+}
+/* Estilos para el modal */
+.modal {
+  display: block; /* Se muestra cuando isModalVisible es true */
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4); /* Fondo semi-transparente */
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* Centrado vertical y horizontal */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 500px; /* Ancho máximo del modal */
+}
+
+.close {
+color: #aaa;
+float: right;
+font-size: 28px;
+font-weight: bold;
+cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+color: black;
+text-decoration: none;
+}

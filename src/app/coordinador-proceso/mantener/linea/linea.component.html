@@ -1,0 +1,43 @@
+
+<!-- Líneas -->
+<div class="admin-card col-12 col-md-6 col-lg-3 mb-4">
+    <h3 class="text-center" (click)="toggleSection('lineas')">Líneas</h3>
+    <div *ngIf="isSectionVisible('lineas')" class="admin-actions">
+      <div class="action-item" (click)="openAddLineaDialog()">
+        <i class="pi pi-pencil"></i>
+        <p>Crear Línea</p>
+      </div>
+      <div class="action-item" (click)="selectOption('lineas')">
+        <i class="pi pi-user-edit"></i>
+        <p>Editar Línea</p>
+      </div>
+      <div class="action-item" (click)="selectOption('lineas')">
+        <i class="pi pi-list"></i>
+        <p>Listar Líneas</p>
+      </div>
+      <div class="action-item" (click)="selectOption('lineas')">
+        <i class="pi pi-trash"></i>
+        <p>Eliminar Línea</p>
+      </div>
+      <div class="action-item" (click)="selectOption('lineas')">
+        <i class="pi pi-file-excel"></i>
+        <p>Exportar Líneas en EXCEL</p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Dialog para agregar Línea -->
+  <p-dialog header="Agregar Línea" [(visible)]="isLineaDialogVisible" [modal]="true" [closable]="true" [responsive]="true" [style]="{width: '450px'}">
+    <div class="p-fluid">
+      <div class="p-field">
+        <label for="nombreLinea" class="p-d-block">Nombre de Línea</label>
+        <input id="nombreLinea" type="text" pInputText [(ngModel)]="linea.nombre" required [ngClass]="{'p-invalid': submitted && !linea.nombre}" />
+        <small *ngIf="submitted && !linea.nombre" class="p-error">El nombre de la línea es obligatorio.</small>
+      </div>
+    </div>
+  
+    <p-footer>
+      <button type="button" pButton label="Cancelar" icon="pi pi-times" class="p-button-secondary" (click)="closeLineaDialog()"></button>
+      <button type="button" pButton label="Guardar" icon="pi pi-check" (click)="saveLinea()"></button>
+    </p-footer>
+  </p-dialog>

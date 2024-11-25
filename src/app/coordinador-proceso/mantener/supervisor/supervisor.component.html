@@ -1,0 +1,107 @@
+<!-- Supervisores -->
+<div class="admin-card col-12 col-md-6 col-lg-3 mb-4">
+    <h3 class="text-center" (click)="toggleSection('supervisores')">Supervisores</h3>
+    <div *ngIf="isSectionVisible('supervisores')" class="admin-actions">
+      <div class="action-item" (click)="openAddSupervisorDialog()">
+        <i class="pi pi-user-plus"></i>
+        <p>Crear Supervisor</p>
+      </div>
+  
+      <div class="action-item" (click)="openListSupervisorsDialog()">
+        <i class="pi pi-list"></i>
+        <p>Listar Supervisores</p>
+      </div>
+      
+      <div class="action-item" (click)="('exportar-supervisores')">
+        <i class="pi pi-file-excel"></i>
+        <p>Exportar Supervisores en EXCEL</p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Dialog para agregar Supervisor -->
+  <p-dialog header="Agregar Supervisor" [(visible)]="isDialogVisible" [modal]="true" [closable]="true" [responsive]="true" [style]="{width: '450px'}">
+    <div class="p-fluid">
+      <div class="p-field">
+        <label for="nombre">Nombre</label>
+        <input id="nombre" type="text" pInputText [(ngModel)]="supervisor.nombre" required [ngClass]="{'p-invalid': submitted && !supervisor.nombre}" />
+        <small *ngIf="submitted && !supervisor.nombre" class="p-error">El nombre es obligatorio.</small>
+      </div>
+  
+      <div class="p-field">
+        <label for="apellido">Apellido</label>
+        <input id="apellido" type="text" pInputText [(ngModel)]="supervisor.apellido" required [ngClass]="{'p-invalid': submitted && !supervisor.apellido}" />
+        <small *ngIf="submitted && !supervisor.apellido" class="p-error">El apellido es obligatorio.</small>
+      </div>
+  
+      <div class="p-field">
+        <label for="email">Email</label>
+        <input id="email" type="email" pInputText [(ngModel)]="supervisor.email" required [ngClass]="{'p-invalid': submitted && !supervisor.email}" />
+        <small *ngIf="submitted && !supervisor.email" class="p-error">El email es obligatorio y debe ser válido.</small>
+      </div>
+  
+      <div class="p-field">
+        <label for="dni">DNI</label>
+        <input id="dni" type="text" pInputText [(ngModel)]="supervisor.dni" required [ngClass]="{'p-invalid': submitted && !supervisor.dni}" />
+        <small *ngIf="submitted && !supervisor.dni" class="p-error">El DNI es obligatorio.</small>
+      </div>
+  
+      <p-footer>
+        <button type="button" pButton label="Cancelar" icon="pi pi-times" (click)="closeDialog()"></button>
+        <button type="button" pButton label="Guardar" icon="pi pi-check" (click)="saveSupervisor()"></button>
+      </p-footer>
+    </div>
+  </p-dialog>
+  
+  <!-- Notificación de éxito -->
+  <p-toast></p-toast>
+  <p-dialog
+  header="Listado de Supervisores"
+  [(visible)]="isListDialogVisible"
+  [modal]="true"
+  [closable]="true"
+  [responsive]="true"
+  [style]="{ width: '800px' }"
+>
+  <div class="p-fluid supervisores-container">
+    <table class="supervisores-table">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Email</th>
+          <th>DNI</th>
+          <th class="actions-header">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let supervisor of supervisores2" class="supervisor-row">
+          <td>{{ supervisor.nombre }}</td>
+          <td>{{ supervisor.apellido }}</td>
+          <td>{{ supervisor.email }}</td>
+          <td>{{ supervisor.dni }}</td>
+          <td class="supervisor-actions">
+            <button
+              pButton
+              icon="pi pi-pencil"
+              class="p-button-sm p-button-rounded p-button-info"
+              title="Editar"
+              (click)="editSupervisor(supervisor)"
+            ></button>
+            <button
+              pButton
+              icon="pi pi-trash"
+              class="p-button-sm p-button-rounded p-button-danger"
+              title="Eliminar"
+              (click)="deleteSupervisor(supervisor.id)"
+            ></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- Mensaje cuando no hay supervisores -->
+    <div class="no-supervisores" *ngIf="supervisores2.length === 0">
+      <p>No hay supervisores disponibles.</p>
+    </div>
+  </div>
+</p-dialog>

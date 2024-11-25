@@ -18,11 +18,13 @@ import { ListaInformesPracticasComponent } from './supervisor-proceso/lista-info
 import { InformeDetalleComponent } from './supervisor-proceso/lista-informes-practicas/informe-detalle/informe-detalle.component';
 import { ListaHorasCompletasComponent } from './estudiante-proceso/lista-horas-completas/lista-horas-completas.component';
 import { MantenerComponent } from './coordinador-proceso/mantener/mantener.component';
+import { AccessDeniedComponent } from './core/guards/access-denied.component';
 
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'access-denied', component: AccessDeniedComponent },
   {
     path: 'dashboard',
     component: DashboardComponent,

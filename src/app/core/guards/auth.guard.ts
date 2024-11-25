@@ -9,23 +9,25 @@ export class AuthGuard implements CanActivate {
   constructor(private router: Router, private authService: AuthService) {}
 
   canActivate(route: ActivatedRouteSnapshot): boolean {
-    const token = localStorage.getItem('accessToken');
-    if (!token) {
+    // Verificar si el usuario está autenticado
+    if (!this.authService.isAuthenticated()) {
+      console.warn('Acceso denegado: Usuario no autenticado.');
       this.router.navigate(['/login']);
       return false;
     }
 
     // Obtener el rol del usuario
     const userRole = this.authService.getUserRole();
-
-    // Verificar si el rol del usuario está en los roles permitidos para la ruta
     const allowedRoles = route.data['roles'] as Array<string>;
-    if (allowedRoles && !allowedRoles.includes(userRole)) {
-      // Redirigir si el rol del usuario no está permitido
-      this.router.navigate(['/login']);
+
+    // Verificar si el rol del usuario está en los roles permitidos
+    if (allowedRoles && allowedRoles.length > 0 && !allowedRoles.includes(userRole)) {
+      console.warn(`Acceso denegado: Usuario con rol "${userRole}" no permitido para esta ruta.`);
+      this.router.navigate(['/access-denied']); // Redirigir a la página de acceso denegado
       return false;
     }
 
+    // Acceso permitido
     return true;
   }
 }

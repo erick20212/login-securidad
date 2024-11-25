@@ -58,4 +58,24 @@ export class AuthService {
   isAuthenticated(): boolean {
     return !!localStorage.getItem('accessToken');
   }
+  refreshToken(): Observable<any> {
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      return this.http.post(`${this.baseUrl}/refresh-token`, { token }).pipe(
+        tap((response: any) => {
+          if (response.accessToken) {
+            localStorage.setItem('accessToken', response.accessToken);
+          }
+        }),
+        catchError((error) => {
+          this.logout();
+          this.toastr.error('Tu sesión ha expirado. Por favor, inicia sesión nuevamente', 'Error');
+          return throwError(() => new Error('Sesión expirada'));
+        })
+      );
+    } else {
+      this.logout();
+      return throwError(() => new Error('No hay token disponible'));
+    }
+  }
 }

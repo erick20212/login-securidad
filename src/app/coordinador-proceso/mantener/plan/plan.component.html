@@ -1,0 +1,42 @@
+<!-- Planes -->
+<div class="admin-card col-12 col-md-6 col-lg-3 mb-4">
+    <h3 class="text-center" (click)="toggleSection('planes')">Planes</h3>
+    <div *ngIf="isSectionVisible('planes')" class="admin-actions">
+      <div class="action-item" (click)="openAddPlanDialog()">
+        <i class="pi pi-book"></i>
+        <p>Crear Plan</p>
+      </div>
+      <div class="action-item" (click)="selectOption('planes')">
+        <i class="pi pi-pencil"></i>
+        <p>Editar Plan</p>
+      </div>
+      <div class="action-item" (click)="selectOption('planes')">
+        <i class="pi pi-list"></i>
+        <p>Listar Planes</p>
+      </div>
+      <div class="action-item" (click)="selectOption('planes')">
+        <i class="pi pi-trash"></i>
+        <p>Eliminar Plan</p>
+      </div>
+      <div class="action-item" (click)="selectOption('planes')">
+        <i class="pi pi-file-excel"></i>
+        <p>Exportar Planes en EXCEL</p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Dialog para agregar Plan -->
+  <p-dialog header="Agregar Plan" [(visible)]="isPlanDialogVisible" [modal]="true" [closable]="true" [responsive]="true" [style]="{width: '450px'}">
+    <div class="p-fluid">
+      <div class="p-field">
+        <label for="nombrePlan" class="p-d-block">Nombre de Plan</label>
+        <input id="nombrePlan" type="text" pInputText [(ngModel)]="planes.nombre" required [ngClass]="{'p-invalid': submitted && !planes.nombre}" />
+        <small *ngIf="submitted && !planes.nombre" class="p-error">El nombre del plan es obligatorio.</small>
+      </div>
+    </div>
+  
+    <p-footer>
+      <button type="button" pButton label="Cancelar" icon="pi pi-times" class="p-button-secondary" (click)="closePlanDialog()"></button>
+      <button type="button" pButton label="Guardar" icon="pi pi-check" (click)="savePlan()"></button>
+    </p-footer>
+  </p-dialog>

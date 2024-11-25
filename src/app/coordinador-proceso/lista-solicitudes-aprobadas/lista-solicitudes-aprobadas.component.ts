@@ -4,12 +4,18 @@ import { DetalleAprobacionComponent } from './detalle-aprobacion/detalle-aprobac
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-interface Solicitud {
+import { EmpresaDto, SolicitudDto } from '../../interfaces/solicitud-dto';
+import { SolicitudService } from '../../core/services/solicitud.service';
+import { HttpClient } from '@angular/common/http';
+
+
+interface Proceso {
   nombre: string;
   codigo: string;
   empresa: string;
   ruc: string;
   estado: string;
+  idSolicitud: number | null;
 }
 
 @Component({
@@ -22,26 +28,36 @@ interface Solicitud {
 export class ListaSolicitudesAprobadasComponent implements OnInit {
   @ViewChild(DetalleAprobacionComponent) detalleAprobacionComponent!: DetalleAprobacionComponent;
 
-  solicitudes: Solicitud[] = [
-    { nombre: 'Practicante 001', codigo: '202420900', empresa: 'ArTec Geoperary express', ruc: '20100022004', estado: 'En espera' },
-    { nombre: 'Practicante 002', codigo: '202420901', empresa: 'XYZ Corp', ruc: '20100022005', estado: 'Aprobada' },
-  ];
-
+  solicitudes: SolicitudDto[] = []; // Lista de solicitudes
   showRejectConfirmModal = false;
   showRejectReasonModal = false;
-  rejectReason = '';
-  selectedSolicitud: Solicitud | null = null;
+  rejectReason: string = ''; // Propiedad añadida para almacenar la razón de rechazo
+  selectedSolicitud: SolicitudDto | null = null; // Solicitud seleccionada
 
-  constructor(private toastr: ToastrService) {}
+  constructor(private toastr: ToastrService, private solicitudService: SolicitudService) {}
 
-  ngOnInit(): void {}
-
-  openEditModal(solicitud: Solicitud): void {
-    this.selectedSolicitud = solicitud;
-    // Implementa la lógica del modal de edición
+  ngOnInit(): void {
+    this.loadSolicitudes();
   }
 
-  openRejectModal(solicitud: Solicitud): void {
+  loadSolicitudes(): void {
+    this.solicitudService.getSolicitudes().subscribe({
+      next: (data: SolicitudDto[]) => {
+        this.solicitudes = data;
+      },
+      error: (err: any) => {
+        this.toastr.error('Error al cargar las solicitudes', 'Error');
+        console.error(err);
+      },
+    });
+  }
+
+  openEditModal(solicitud: SolicitudDto): void {
+    this.selectedSolicitud = solicitud;
+    // Implementar lógica para editar si es necesario
+  }
+
+  openRejectModal(solicitud: SolicitudDto): void {
     this.selectedSolicitud = solicitud;
     this.showRejectConfirmModal = true;
   }
@@ -53,24 +69,38 @@ export class ListaSolicitudesAprobadasComponent implements OnInit {
 
   confirmReject(): void {
     this.showRejectConfirmModal = false;
-    this.showRejectReasonModal = true;
+    this.showRejectReasonModal = true; // Abrir modal para ingresar razón de rechazo
   }
 
   sendRejectReason(): void {
     if (this.selectedSolicitud) {
-      this.toastr.warning(`Solicitud de ${this.selectedSolicitud.nombre} rechazada: ${this.rejectReason}`);
-      this.showRejectReasonModal = false;
-      this.rejectReason = '';
-      this.selectedSolicitud = null;
+      const payload = {
+        codigo: this.selectedSolicitud.estudiante?.codigo || '',
+        razon: this.rejectReason,
+      };
+
+      this.solicitudService.rejectSolicitud(payload).subscribe({
+        next: () => {
+          this.toastr.warning(`Solicitud de ${this.selectedSolicitud?.estudiante?.nombre} rechazada: ${this.rejectReason}`);
+          this.showRejectReasonModal = false;
+          this.rejectReason = '';
+          this.selectedSolicitud = null;
+          this.loadSolicitudes(); // Recargar solicitudes
+        },
+        error: (err: any) => {
+          this.toastr.error('Error al rechazar la solicitud', 'Error');
+          console.error(err);
+        },
+      });
     }
   }
 
-  mostrarDetalle(solicitud: Solicitud): void {
-    this.toastr.info('Mostrando detalles de: ' + solicitud.nombre);
+  mostrarDetalle(solicitud: SolicitudDto): void {
+    this.toastr.info('Mostrando detalles de: ' + solicitud.estudiante?.nombre);
     this.detalleAprobacionComponent.openModal();
   }
 
-  aceptarSolicitud(solicitud: Solicitud): void {
-    this.toastr.success('Solicitud de ' + solicitud.nombre + ' aceptada');
+  aceptarSolicitud(solicitud: SolicitudDto): void {
+    this.toastr.success('Solicitud de ' + solicitud.estudiante?.nombre + ' aceptada');
   }
 }

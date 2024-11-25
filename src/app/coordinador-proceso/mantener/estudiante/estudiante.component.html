@@ -1,0 +1,66 @@
+<!-- Estudiantes -->
+<div class="admin-card col-12 col-md-6 col-lg-3 mb-4">
+    <h3 class="text-center" (click)="toggleSection('estudiantes')">Estudiantes</h3>
+    <div *ngIf="isSectionVisible('estudiantes')" class="admin-actions">
+      <div class="action-item" (click)="openAddEstudianteDialog()">
+        <i class="pi pi-user-plus"></i>
+        <p>Crear Estudiante</p>
+      </div>
+      <div class="action-item" (click)="selectOption('estudiantes')">
+        <i class="pi pi-user-edit"></i>
+        <p>Editar Estudiante</p>
+      </div>
+      <div class="action-item" (click)="selectOption('estudiantes')">
+        <i class="pi pi-list"></i>
+        <p>Listar Estudiantes</p>
+      </div>
+      <div class="action-item" (click)="selectOption('estudiantes')">
+        <i class="pi pi-trash"></i>
+        <p>Eliminar Estudiante</p>
+      </div>
+      <div class="action-item" (click)="selectOption('estudiantes')">
+        <i class="pi pi-file-excel"></i>
+        <p>Exportar Estudiantes en EXCEL</p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Dialog para agregar Estudiante -->
+  <p-dialog header="Agregar Estudiante" [(visible)]="isEstudianteDialogVisible" [modal]="true" [closable]="true" [responsive]="true" [style]="{width: '450px'}">
+    <div class="p-fluid">
+      <div class="p-field">
+        <label for="nombreEstudiante" class="p-d-block">Nombre</label>
+        <input id="nombreEstudiante" type="text" pInputText [(ngModel)]="estudiante.nombre" required [ngClass]="{'p-invalid': submitted && !estudiante.nombre}" />
+        <small *ngIf="submitted && !estudiante.nombre" class="p-error">El nombre es obligatorio.</small>
+      </div>
+      
+      <div class="p-field">
+        <label for="apellidoEstudiante" class="p-d-block">Apellido</label>
+        <input id="apellidoEstudiante" type="text" pInputText [(ngModel)]="estudiante.apellido" required [ngClass]="{'p-invalid': submitted && !estudiante.apellido}" />
+        <small *ngIf="submitted && !estudiante.apellido" class="p-error">El apellido es obligatorio.</small>
+      </div>
+  
+      <div class="p-field">
+        <label for="codigoEstudiante" class="p-d-block">Código</label>
+        <input id="codigoEstudiante" type="text" pInputText [(ngModel)]="estudiante.codigo" required [ngClass]="{'p-invalid': submitted && !estudiante.codigo}" />
+        <small *ngIf="submitted && !estudiante.codigo" class="p-error">El código es obligatorio.</small>
+      </div>
+  
+      <div class="p-field">
+        <label for="emailEstudiante" class="p-d-block">Email</label>
+        <input id="emailEstudiante" type="email" pInputText [(ngModel)]="estudiante.email" required [ngClass]="{'p-invalid': submitted && !estudiante.email}" />
+        <small *ngIf="submitted && !estudiante.email" class="p-error">El email es obligatorio y debe ser válido.</small>
+      </div>
+  
+      <div class="p-field">
+        <label for="dniEstudiante" class="p-d-block">DNI</label>
+        <input id="dniEstudiante" type="text" pInputText [(ngModel)]="estudiante.dni" required [ngClass]="{'p-invalid': submitted && !estudiante.dni}" />
+        <small *ngIf="submitted && !estudiante.dni" class="p-error">El DNI es obligatorio.</small>
+      </div>
+    </div>
+  
+    <p-footer>
+      <button type="button" pButton label="Cancelar" icon="pi pi-times" class="p-button-secondary" (click)="closeEstudianteDialog()"></button>
+      <button type="button" pButton label="Guardar" icon="pi pi-check" (click)="saveEstudiante()"></button>
+    </p-footer>
+  </p-dialog>

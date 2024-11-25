@@ -1,80 +1,59 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule, NgClass, NgIf } from '@angular/common';
 import { DetalleSolicitudComponent } from './detalle-solicitud/detalle-solicitud.component';
-
-interface Proceso {
-  nombre: string;
-  codigo: string;
-  empresa: string;
-  ruc: string;
-  estado: string;
-}
+import { SolicitudService } from '../../core/services/solicitud.service';
+import { SolicitudDto } from '../../interfaces/solicitud-dto'; // Usa la interfaz desde un archivo compartido
 
 @Component({
   selector: 'app-solicitudes-practicas',
-  standalone:true,
+  standalone: true,
   imports: [CommonModule, NgClass, NgIf, DetalleSolicitudComponent],
   templateUrl: './solicitudes-practicas.component.html',
-  styleUrls: ['./solicitudes-practicas.component.css']
+  styleUrls: ['./solicitudes-practicas.component.css'],
 })
 export class SolicitudesPracticasComponent implements OnInit {
-  procesos: Proceso[] = [];
-  procesoSeleccionado: Proceso | null = null;
+  solicitudes: SolicitudDto[] = [];
+  isLoading: boolean = true;
 
-  // Flags para mostrar las ventanas de confirmación
-  showConfirmRechazo: boolean = false;
-  showConfirmAceptar: boolean = false;
-
-  constructor(private http: HttpClient, private toastr: ToastrService) {}
+  constructor(
+    private solicitudService: SolicitudService,
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit(): void {
     this.cargarSolicitudes();
   }
 
   cargarSolicitudes(): void {
-    this.http.get<Proceso[]>('http://localhost:8080/api/solicitud').subscribe(
-      (data) => {
-        this.procesos = data;
+    this.solicitudService.getSolicitudes().subscribe({
+      next: (data: SolicitudDto[]) => {
+        console.log('Solicitudes obtenidas:', data); // Verifica si las solicitudes tienen los datos correctos
+        this.solicitudes = data;
+        this.isLoading = false;
       },
-      (error) => {
-        this.toastr.error('Error al cargar las solicitudes', 'Error');
-      }
-    );
+      error: (error) => {
+        this.toastr.error('Error al cargar las solicitudes.', 'Error');
+        console.error('Error:', error);
+        this.isLoading = false;
+      },
+    });
   }
-
-  mostrarDetalle(proceso: Proceso): void {
-    this.procesoSeleccionado = proceso;
+  getEstadoClase(estado: string | null): string {
+    switch (estado) {
+      case 'En Proceso':
+        return 'en-proceso';
+      case 'Aprobada':
+        return 'aprobada';
+      case 'Rechazada':
+        return 'rechazada';
+      default:
+        return '';
+    }
   }
-
-  cerrarDetalle(): void {
-    this.procesoSeleccionado = null;
-  }
-
-  confirmarRechazo(): void {
-    this.showConfirmRechazo = true;
-  }
-
-  cancelarRechazo(): void {
-    this.showConfirmRechazo = false;
-  }
-
-  rechazarSolicitud(): void {
-    this.showConfirmRechazo = false;
-    this.toastr.warning('Solicitud rechazada', 'Rechazada');
-  }
-
-  confirmarAceptar(): void {
-    this.showConfirmAceptar = true;
-  }
-
-  cancelarAceptar(): void {
-    this.showConfirmAceptar = false;
-  }
-
-  aceptarSolicitud(): void {
-    this.showConfirmAceptar = false;
-    this.toastr.success('Solicitud aceptada', 'Aceptada');
+  
+  verDetalle(id: number | null): void {
+    console.log('Ver detalle para la solicitud con ID:', id);
+    // Aquí podrías navegar a otra vista o abrir un modal con los detalles.
   }
 }
