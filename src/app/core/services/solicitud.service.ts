@@ -47,6 +47,10 @@ export class SolicitudService {
     );
   }
 
+  getSolicitudesAprobadas(): Observable<SolicitudDto[]> {
+    return this.http.get<SolicitudDto[]>(`${this.apiUrl}/aprobadas`);
+  }
+  
   // Método para crear las cabeceras con el token
   private createAuthorizationHeader(): HttpHeaders {
     const token = localStorage.getItem('accessToken'); // Cambiado a 'accessToken'

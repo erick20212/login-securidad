@@ -1,64 +1,34 @@
 <div class="lista-container">
-  <h1>Lista de Solicitudes</h1>
+  <h1>Lista de Solicitudes Aprobadas</h1>
 
-  <!-- Barra de búsqueda -->
-  <div class="search-filter-bar">
-    <input type="text" placeholder="Buscar..." class="search-input" />
-    <button class="filter-button">
-      <i class="fas fa-filter"></i>
-    </button>
-  </div>
+  <!-- Loader -->
+  <div *ngIf="isLoading" class="loader">Cargando solicitudes aprobadas...</div>
 
-  <!-- Listado de Solicitudes -->
-  <div *ngFor="let solicitud of solicitudes" class="solicitud-card">
-    <div class="solicitud-info">
-      <p><strong>Nombre:</strong> {{ solicitud.estudiante?.nombre || 'N/A' }}</p>
-      <p><strong>Código:</strong> {{ solicitud.estudiante?.codigo || 'N/A' }}</p>
-      <p><strong>Estado:</strong>
-        <span [ngClass]="{
-          'en-espera': solicitud.estado === 'En espera',
-          'aprobada': solicitud.estado === 'Aprobada',
-          'rechazada': solicitud.estado === 'Rechazada'
-        }">
-          {{ solicitud.estado }}
-        </span>
-      </p>
-    </div>
+  <!-- Listado de Solicitudes Aprobadas -->
+  <div *ngIf="!isLoading && solicitudes.length > 0" class="solicitudes-grid">
+    <div *ngFor="let solicitud of solicitudes" class="solicitud-card">
+      <div class="solicitud-info">
+        <p><strong>Nombre:</strong> {{ solicitud.estudiante?.nombre || 'N/A' }}</p>
+        <p><strong>Código:</strong> {{ solicitud.estudiante?.codigo || 'N/A' }}</p>
+        <p><strong>Empresa:</strong> {{ solicitud.empresa?.razonSocial || 'N/A' }}</p>
+        <p><strong>Estado:</strong>
+          <span class="aprobada">Aprobada</span>
+        </p>
+      </div>
 
-    <!-- Acciones para cada solicitud -->
-    <div class="solicitud-actions">
-      <button class="view-button" (click)="mostrarDetalle(solicitud)">
-        <i class="fas fa-eye"></i> Ver Detalles
-      </button>
-      <button class="edit-button" (click)="openEditModal(solicitud)">
-        <i class="fas fa-pen"></i>
-      </button>
-      <button class="reject-button" (click)="openRejectModal(solicitud)">
-        <i class="fas fa-times"></i>
-      </button>
-    </div>
-  </div>
-
-  <!-- Modal de Detalle de Aprobación -->
-  <app-detalle-aprobacion #detalleAprobacionComponent></app-detalle-aprobacion>
-
-  <!-- Modal de Confirmación de Rechazo -->
-  <div class="modal-overlay" *ngIf="showRejectConfirmModal">
-    <div class="modal-content reject-confirm-modal">
-      <h3>¿Desea rechazar la solicitud?</h3>
-      <div class="modal-buttons">
-        <button class="no-reject-btn" (click)="closeRejectConfirmModal()">No</button>
-        <button class="reject-btn" (click)="confirmReject()">Rechazar</button>
+      <div class="solicitud-actions">
+        <button class="view-button" (click)="mostrarDetalle(solicitud)">
+          <i class="fas fa-eye"></i> Ver Detalles
+        </button>
       </div>
     </div>
   </div>
 
-  <!-- Modal de Razón de Rechazo -->
-  <div class="modal-overlay" *ngIf="showRejectReasonModal">
-    <div class="modal-content reject-reason-modal">
-      <h3>Razón de rechazo</h3>
-      <textarea placeholder="Escribe la razón del rechazo" [(ngModel)]="rejectReason"></textarea>
-      <button class="send-btn" (click)="sendRejectReason()">Enviar</button>
-    </div>
+  <!-- Mensaje de "No hay solicitudes aprobadas" -->
+  <div *ngIf="!isLoading && solicitudes.length === 0">
+    <p>No hay solicitudes aprobadas disponibles.</p>
   </div>
+
+  <!-- Modal de Detalle de Aprobación -->
+  <app-detalle-aprobacion #detalleAprobacionComponent></app-detalle-aprobacion>
 </div>

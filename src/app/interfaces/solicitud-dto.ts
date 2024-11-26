@@ -6,6 +6,7 @@ export interface SolicitudDto {
   estado: string | null;
   empresas: EmpresaDto[]; // Lista de empresas
   lineasCarrera: LineaCarreraDto[]; // Lista de líneas de carrera
+  fechaCreacion?: string; 
 }
 
 export interface EstudianteDto {
@@ -14,6 +15,7 @@ export interface EstudianteDto {
   dni: string | null;
   telefono: string | null;
   correo: string | null;
+  
 }
 
 export interface EmpresaDto {
