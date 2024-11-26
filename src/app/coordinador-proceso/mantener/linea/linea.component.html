@@ -1,6 +1,5 @@
-
-<!-- Líneas -->
-<div class="admin-card col-12 col-md-6 col-lg-3 mb-4">
+  <!-- Líneas -->
+  <div class="admin-card col-12 col-md-6 col-lg-3 mb-4">
     <h3 class="text-center" (click)="toggleSection('lineas')">Líneas</h3>
     <div *ngIf="isSectionVisible('lineas')" class="admin-actions">
       <div class="action-item" (click)="openAddLineaDialog()">
@@ -25,7 +24,7 @@
       </div>
     </div>
   </div>
-  
+
   <!-- Dialog para agregar Línea -->
   <p-dialog header="Agregar Línea" [(visible)]="isLineaDialogVisible" [modal]="true" [closable]="true" [responsive]="true" [style]="{width: '450px'}">
     <div class="p-fluid">
@@ -35,9 +34,51 @@
         <small *ngIf="submitted && !linea.nombre" class="p-error">El nombre de la línea es obligatorio.</small>
       </div>
     </div>
-  
+
     <p-footer>
       <button type="button" pButton label="Cancelar" icon="pi pi-times" class="p-button-secondary" (click)="closeLineaDialog()"></button>
-      <button type="button" pButton label="Guardar" icon="pi pi-check" (click)="saveLinea()"></button>
+      <button type="button" pButton label="Guardar" icon="pi pi-check" (click)="createLinea()"></button>
     </p-footer>
+  </p-dialog>
+
+  <!-- Listado de Líneas -->
+  <p-dialog header="Listado de Líneas" [(visible)]="isListDialogVisible" [modal]="true" [closable]="true" [responsive]="true" [style]="{ width: '800px' }">
+    <div class="p-fluid lineas-container">
+        <table class="lineas-table">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th class="actions-header">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let linea of lineas" class="linea-row">
+                    <td>{{ linea.nombre }}</td>
+                    <td class="linea-actions">
+                        <button pButton icon="pi pi-pencil" class="p-button-sm p-button-rounded p-button-info" title="Editar" (click)="editLinea(linea)"></button>
+                        <button pButton icon="pi pi-trash" class="p-button-sm p-button-rounded p-button-danger" title="Eliminar" (click)="deleteLinea(linea.id)"></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Mensaje cuando no hay líneas -->
+        <div class="no-lineas" *ngIf="lineas.length === 0">
+            <p>No hay líneas disponibles.</p>
+        </div>
+    </div>
+  </p-dialog>
+
+  <!-- Dialog para editar Línea -->
+  <p-dialog header="Editar Línea" [(visible)]="displayEditDialog" [modal]="true" [closable]="false" [responsive]="true" [style]="{ width: '400px' }">
+    <form #editForm="ngForm" (ngSubmit)="updateLinea()">
+        <div class="p-field">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" [(ngModel)]="selectedLinea.nombre" name="nombre" pInputText required />
+        </div>
+        <div class="dialog-buttons">
+            <button pButton type="submit" label="Guardar" class="p-button-success"></button>
+            <button pButton type="button" label="Cancelar" class="p-button-secondary" (click)="cancelEdit()"></button>
+        </div>
+    </form>
   </p-dialog>
