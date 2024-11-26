@@ -138,7 +138,7 @@ export class CartaAceptacionComponent implements OnInit {
       estudiante: this.solicitud?.estudiante || null,
       empresa: selectedCompanyData,
       lineaCarrera: selectedCareerLineData,
-      estado: 'pendiente',
+      estado: 'En proceso',
       empresas: [],
       lineasCarrera: [],
     };
