@@ -7,7 +7,6 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class SolicitudService {
- 
   private apiUrl = 'http://localhost:8080/api/solicitudes';
 
   constructor(private http: HttpClient) {}
@@ -33,12 +32,14 @@ export class SolicitudService {
   getSolicitudesDelEstudiante(): Observable<SolicitudDto[]> {
     return this.http.get<SolicitudDto[]>(`${this.apiUrl}/mis-solicitudes`);
   }
+
   // Rechazar una solicitud
   rejectSolicitud(payload: { codigo: string | undefined; razon: string }): Observable<void> {
     const headers = this.createAuthorizationHeader();
     return this.http.post<void>(`${this.apiUrl}/rechazar`, payload, { headers });
   }
-  
+
+  // Actualizar el estado de una solicitud
   actualizarEstadoSolicitud(solicitudId: number, nuevoEstado: string): Observable<{ message: string }> {
     return this.http.put<{ message: string }>(
       `${this.apiUrl}/${solicitudId}/estado`,
@@ -47,10 +48,16 @@ export class SolicitudService {
     );
   }
 
+  // Obtener solicitudes aprobadas
   getSolicitudesAprobadas(): Observable<SolicitudDto[]> {
     return this.http.get<SolicitudDto[]>(`${this.apiUrl}/aprobadas`);
   }
-  
+
+  // Eliminar una solicitud
+  deleteSolicitud(id: number): Observable<void> {
+    return this.http.delete<void>(`http://localhost:8080/api/solicitudes/mis-solicitudes/${id}`);
+  }
+
   // Método para crear las cabeceras con el token
   private createAuthorizationHeader(): HttpHeaders {
     const token = localStorage.getItem('accessToken'); // Cambiado a 'accessToken'

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as XLSX from 'xlsx';  // Importar librería XLSX
-import { ExcelService } from '../../../core/services/ExcelService.service';
+import { ExcelService } from '../../../core/services/Excelservice.service';
 
 
 @Component({
