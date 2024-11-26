@@ -1,35 +1,29 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Linea } from '../../interfaces/linea';
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LineaService {
-  private apiUrl = 'http://localhost:8080/api/linea';
+  private baseUrl = 'http://localhost:8080/api/linea';  // Asegúrate de tener la URL correcta
 
   constructor(private http: HttpClient) {}
 
   getLineas(): Observable<Linea[]> {
-    return this.http.get<Linea[]>(this.apiUrl);
-  }
-
-  getLineaById(id: number): Observable<Linea> {
-    return this.http.get<Linea>(`${this.apiUrl}/${id}`);
+    return this.http.get<Linea[]>(this.baseUrl);
   }
 
   createLinea(linea: Linea): Observable<Linea> {
-    return this.http.post<Linea>(this.apiUrl, linea);
+    return this.http.post<Linea>(this.baseUrl, linea);
   }
 
   updateLinea(linea: Linea): Observable<Linea> {
-    return this.http.put<Linea>(`${this.apiUrl}/${linea.id}`, linea);
+    return this.http.put<Linea>(`${this.baseUrl}/${linea.id}`, linea);
   }
 
   deleteLinea(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 }

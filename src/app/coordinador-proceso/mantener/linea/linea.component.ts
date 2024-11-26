@@ -1,163 +1,55 @@
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { LineaService } from '../../../core/services/linea.service';  // Servicio para manejar líneas
+import { Linea } from '../../../interfaces/linea';  // Interfaz Linea
+import { MessageService } from 'primeng/api';  // Para mostrar notificaciones
 import { DialogModule } from 'primeng/dialog';
-import { SupervisorComponent } from '../supervisor/supervisor.component';
-import { ExcelComponent } from '../excel/excel.component';
 import { FormsModule } from '@angular/forms';
-import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
-import { catchError, of } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-linea',
   standalone: true,
-  imports: [
-    CommonModule,
-    DialogModule,
-    InputTextModule,
-    ButtonModule,
-    FormsModule,
-    ExcelComponent,
-    SupervisorComponent,
-  ],
+  imports: [DialogModule, FormsModule, CommonModule],
   templateUrl: './linea.component.html',
-  styleUrls: ['./linea.component.css'], // Cambiado `styleUrl` a `styleUrls`
+  styleUrls: ['./linea.component.css'], 
 })
-export class LineaComponent {
-  private readonly apiUrl = 'http://localhost:8080/api/'; // Cambia esto por la URL de tu API
-  private visibleSections: { [key: string]: boolean } = {};
-  isDialogVisible: boolean = false;
-  isConfirmationVisible: boolean = false; // Flag para mostrar el diálogo de confirmación
-  submitted: boolean = false; // Bandera para validar el formulario
-
-  // Supervisor, Estudiante, Planes, Línea y Empresa
-  supervisor = { nombre: '', apellido: '', email: '', dni: '' };
-  estudiante = { nombre: '', apellido: '', email: '', dni: '', codigo: '' };
-  planes = { nombre: '' };
-  linea = { nombre: '' };
-  empresa = { razonSocial: '', direccion: '', email: '', telefono: '' };
-
-  // Variables de control de los diálogos
-  isEstudianteDialogVisible: boolean = false;
-  isEmpresaDialogVisible: boolean = false;
+export class LineaComponent implements OnInit {
+  isListDialogVisible: boolean = false;
   isLineaDialogVisible: boolean = false;
-  isPlanDialogVisible: boolean = false;
+  lineas: Linea[] = [];
+  selectedLinea: Linea = { id: 0, nombre: '', estado: '' };
+  linea: Linea = { id: 0, nombre: '', estado: '' };
+  displayEditDialog: boolean = false;
+  isVisible: { [key: string]: boolean } = {};
+  submitted: boolean = false;
 
-  constructor(private http: HttpClient) {}
-  ngOnInit(): void {}
+  constructor(private lineaService: LineaService, private messageService: MessageService) {}
 
-  // Lógica para mostrar y ocultar secciones
-  toggleSection(section: string): void {
-    this.visibleSections[section] = !this.visibleSections[section];
+  ngOnInit() {
+    this.getLineas();
   }
 
-  isSectionVisible(section: string): boolean {
-    return this.visibleSections[section] || false;
-  }
-
-  // Lógica para guardar datos en el servidor
-  saveData(endpoint: string, data: any, closeDialog: () => void): void {
-    this.http.post(`${this.apiUrl}${endpoint}`, data).pipe(
-      catchError((error) => {
-        console.error(`Error guardando ${endpoint}:`, error);
-        return of(null);
-      })
-    ).subscribe((response) => {
-      if (response) {
-        console.log(`${endpoint} guardado con éxito:`, response);
-        closeDialog();
+  getLineas() {
+    this.lineaService.getLineas().subscribe({
+      next: (data: Linea[]) => {
+        this.lineas = data;
+      },
+      error: (err: any) => {
+        console.error('Error al cargar las líneas', err);
       }
     });
   }
 
-  // Guardar supervisor
-  saveSupervisor(): void {
-    this.submitted = true;
-    if (this.supervisor.nombre && this.supervisor.apellido && this.supervisor.email && this.supervisor.dni) {
-      this.saveData('supervisores', this.supervisor, () => {
-        this.isDialogVisible = false;
-        this.isConfirmationVisible = false;
-      });
-    } else {
-      console.log('Formulario de supervisor inválido');
-    }
+  toggleSection(section: string) {
+    this.isVisible[section] = !this.isVisible[section];
   }
 
-  // Guardar estudiante
-  saveEstudiante(): void {
-    this.submitted = true;
-    if (
-      this.estudiante.nombre &&
-      this.estudiante.apellido &&
-      this.estudiante.email &&
-      this.estudiante.dni &&
-      this.estudiante.codigo
-    ) {
-      this.saveData('estudiantes', this.estudiante, () => {
-        this.isEstudianteDialogVisible = false;
-      });
-    } else {
-      console.log('Formulario de estudiante inválido');
-    }
+  isSectionVisible(section: string): boolean {
+    return this.isVisible[section] || false;
   }
 
-  // Lógica para seleccionar una opción
-  selectOption(option: string): void {
-    console.log(`Opción seleccionada: ${option}`);
-  }
-
-  // Diálogos de Supervisor
-  openAddSupervisorDialog() {
-    this.isDialogVisible = true;
-  }
-
-  closeDialog() {
-    this.isDialogVisible = false;
-    this.submitted = false; // Reseteamos la validación
-  }
-
-  // Confirmación
-  openConfirmationDialog() {
-    this.isConfirmationVisible = true;
-  }
-
-  closeConfirmation() {
-    this.isConfirmationVisible = false;
-  }
-
-  // Diálogos de Estudiante
-  openAddEstudianteDialog() {
-    this.isEstudianteDialogVisible = true;
-  }
-
-  closeEstudianteDialog() {
-    this.isEstudianteDialogVisible = false;
-    this.submitted = false;
-  }
-
-  // Guardar empresa
-  openAddEmpresaDialog() {
-    this.isEmpresaDialogVisible = true;
-  }
-
-  closeEmpresaDialog() {
-    this.isEmpresaDialogVisible = false;
-    this.submitted = false;
-  }
-
-  saveEmpresa(): void {
-    if (this.empresa.razonSocial && this.empresa.direccion && this.empresa.email && this.empresa.telefono) {
-      this.saveData('empresas', this.empresa, () => {
-        this.isEmpresaDialogVisible = false;
-      });
-    } else {
-      console.log('Formulario de empresa inválido');
-    }
-  }
-
-  // Diálogos de Línea
   openAddLineaDialog() {
+    this.linea = { id: 0, nombre: '', estado: '' };
     this.isLineaDialogVisible = true;
   }
 
@@ -166,33 +58,98 @@ export class LineaComponent {
     this.submitted = false;
   }
 
-  saveLinea(): void {
-    if (this.linea.nombre) {
-      this.saveData('lineas', this.linea, () => {
+  createLinea() {
+    this.submitted = true;
+    if (!this.linea.nombre) {
+      return;
+    }
+
+    this.lineaService.createLinea(this.linea).subscribe({
+      next: (data) => {
+        this.lineas.push(data);
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Éxito',
+          detail: 'Línea creada con éxito',
+        });
         this.isLineaDialogVisible = false;
-      });
-    } else {
-      console.log('Formulario de línea inválido');
+        this.linea = { id: 0, nombre: '', estado: '' };
+      },
+      error: (err) => {
+        console.error('Error al crear línea', err);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'No se pudo crear la línea.',
+        });
+      }
+    });
+  }
+
+  selectOption(option: string) {
+    if (option === 'lineas') {
+      this.getLineas();
     }
   }
 
-  // Diálogos de Plan
-  openAddPlanDialog() {
-    this.isPlanDialogVisible = true;
+  editLinea(linea: Linea) {
+    this.selectedLinea = { ...linea };
+    this.displayEditDialog = true;
   }
 
-  closePlanDialog() {
-    this.isPlanDialogVisible = false;
-    this.submitted = false;
-  }
-
-  savePlan(): void {
-    if (this.planes.nombre) {
-      this.saveData('planes', this.planes, () => {
-        this.isPlanDialogVisible = false;
+  updateLinea() {
+    if (this.selectedLinea) {
+      this.lineaService.updateLinea(this.selectedLinea).subscribe({
+        next: (data) => {
+          const index = this.lineas.findIndex(l => l.id === data.id);
+          if (index !== -1) {
+            this.lineas[index] = data;
+          }
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Éxito',
+            detail: 'Línea actualizada con éxito',
+          });
+          this.displayEditDialog = false;
+          this.selectedLinea = { id: 0, nombre: '', estado: '' };
+        },
+        error: (err) => {
+          console.error('Error al actualizar línea', err);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'No se pudo actualizar la línea.',
+          });
+        }
       });
-    } else {
-      console.log('Formulario de plan inválido');
+    }
+  }
+
+  cancelEdit() {
+    this.displayEditDialog = false;
+    this.selectedLinea = { id: 0, nombre: '', estado: '' };
+  }
+
+  deleteLinea(id: number) {
+    if (confirm('¿Estás seguro de que quieres eliminar esta línea?')) {
+      this.lineaService.deleteLinea(id).subscribe({
+        next: () => {
+          this.lineas = this.lineas.filter(linea => linea.id !== id);
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Éxito',
+            detail: 'Línea eliminada correctamente',
+          });
+        },
+        error: (err) => {
+          console.error('Error al eliminar línea', err);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'No se pudo eliminar la línea.',
+          });
+        }
+      });
     }
   }
 }

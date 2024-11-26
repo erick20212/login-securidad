@@ -28,48 +28,42 @@ interface Proceso {
 export class ListaSolicitudesAprobadasComponent implements OnInit {
   @ViewChild(DetalleAprobacionComponent) detalleAprobacionComponent!: DetalleAprobacionComponent;
 
-  solicitudes: SolicitudDto[] = []; // Lista de solicitudes
-  showRejectConfirmModal = false;
+  solicitudes: SolicitudDto[] = []; // Lista de solicitudes aprobadas
+  isLoading: boolean = true; // Indicador de carga
   showRejectReasonModal = false;
-  rejectReason: string = ''; // Propiedad añadida para almacenar la razón de rechazo
-  selectedSolicitud: SolicitudDto | null = null; // Solicitud seleccionada
+  rejectReason: string = ''; // Razón de rechazo
+  selectedSolicitud: SolicitudDto | null = null; // Solicitud seleccionada para rechazo o edición
 
   constructor(private toastr: ToastrService, private solicitudService: SolicitudService) {}
 
   ngOnInit(): void {
-    this.loadSolicitudes();
+    this.loadSolicitudesAprobadas();
   }
 
-  loadSolicitudes(): void {
-    this.solicitudService.getSolicitudes().subscribe({
+  // Cargar solo las solicitudes aprobadas
+  loadSolicitudesAprobadas(): void {
+    this.isLoading = true;
+    this.solicitudService.getSolicitudesAprobadas().subscribe({
       next: (data: SolicitudDto[]) => {
-        this.solicitudes = data;
+        this.solicitudes = data; // Asignamos las solicitudes aprobadas
+        this.isLoading = false; // Cambiamos el indicador de carga
       },
       error: (err: any) => {
-        this.toastr.error('Error al cargar las solicitudes', 'Error');
+        this.toastr.error('Error al cargar las solicitudes aprobadas', 'Error');
         console.error(err);
+        this.isLoading = false; // Indicador de carga a falso en caso de error
       },
     });
   }
 
-  openEditModal(solicitud: SolicitudDto): void {
-    this.selectedSolicitud = solicitud;
-    // Implementar lógica para editar si es necesario
+  mostrarDetalle(solicitud: SolicitudDto): void {
+    this.toastr.info('Mostrando detalles de: ' + solicitud.estudiante?.nombre);
+    this.detalleAprobacionComponent.openModal();
   }
 
   openRejectModal(solicitud: SolicitudDto): void {
     this.selectedSolicitud = solicitud;
-    this.showRejectConfirmModal = true;
-  }
-
-  closeRejectConfirmModal(): void {
-    this.showRejectConfirmModal = false;
-    this.selectedSolicitud = null;
-  }
-
-  confirmReject(): void {
-    this.showRejectConfirmModal = false;
-    this.showRejectReasonModal = true; // Abrir modal para ingresar razón de rechazo
+    this.showRejectReasonModal = true;
   }
 
   sendRejectReason(): void {
@@ -82,10 +76,10 @@ export class ListaSolicitudesAprobadasComponent implements OnInit {
       this.solicitudService.rejectSolicitud(payload).subscribe({
         next: () => {
           this.toastr.warning(`Solicitud de ${this.selectedSolicitud?.estudiante?.nombre} rechazada: ${this.rejectReason}`);
-          this.showRejectReasonModal = false;
           this.rejectReason = '';
           this.selectedSolicitud = null;
-          this.loadSolicitudes(); // Recargar solicitudes
+          this.showRejectReasonModal = false;
+          this.loadSolicitudesAprobadas(); // Recargar solicitudes aprobadas
         },
         error: (err: any) => {
           this.toastr.error('Error al rechazar la solicitud', 'Error');
@@ -93,14 +87,5 @@ export class ListaSolicitudesAprobadasComponent implements OnInit {
         },
       });
     }
-  }
-
-  mostrarDetalle(solicitud: SolicitudDto): void {
-    this.toastr.info('Mostrando detalles de: ' + solicitud.estudiante?.nombre);
-    this.detalleAprobacionComponent.openModal();
-  }
-
-  aceptarSolicitud(solicitud: SolicitudDto): void {
-    this.toastr.success('Solicitud de ' + solicitud.estudiante?.nombre + ' aceptada');
   }
 }

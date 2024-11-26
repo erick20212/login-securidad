@@ -1,11 +1,17 @@
-<div class="container">
-    <!-- Sección de carga de archivo -->
-    <div class="upload-section text-center mb-4">
-      <div class="upload-icon">
-        <!-- Usando PrimeIcons -->
-        <i class="pi pi-upload"></i>
-      </div>
-      <p class="mt-2">Subir Archivo Excel</p>
+<div class="container"> 
+  <!-- Sección de carga de archivo -->
+  <div class="upload-section text-center mb-4">
+    <div class="upload-icon">
+      <!-- Usando PrimeIcons -->
+      <i class="pi pi-upload"></i>
+    </div>
+    <p class="mt-2">Subir Archivo Excel</p>
+
+    <!-- Formulario para cargar archivo -->
+    <input type="file" (change)="onFileChange($event)" accept=".xls, .xlsx, .csv" class="form-control-file" />
+    <button class="btn btn-primary" (click)="uploadFile()" [disabled]="!selectedFile">
+      Subir Archivo
+    </button>
   </div>
   
     <h2 class="text-center mb-4">Administrar</h2>
