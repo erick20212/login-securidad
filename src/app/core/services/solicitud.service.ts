@@ -29,12 +29,28 @@ export class SolicitudService {
     return this.http.get<SolicitudDto[]>('http://localhost:8080/api/solicitudes/list');
   }
 
+  // Obtener solicitudes del estudiante autenticado
+  getSolicitudesDelEstudiante(): Observable<SolicitudDto[]> {
+    return this.http.get<SolicitudDto[]>(`${this.apiUrl}/mis-solicitudes`);
+  }
   // Rechazar una solicitud
   rejectSolicitud(payload: { codigo: string | undefined; razon: string }): Observable<void> {
     const headers = this.createAuthorizationHeader();
     return this.http.post<void>(`${this.apiUrl}/rechazar`, payload, { headers });
   }
+  
+  actualizarEstadoSolicitud(solicitudId: number, nuevoEstado: string): Observable<{ message: string }> {
+    return this.http.put<{ message: string }>(
+      `${this.apiUrl}/${solicitudId}/estado`,
+      null, // No necesitamos enviar un cuerpo, solo usamos parámetros
+      { params: { nuevoEstado } }
+    );
+  }
 
+  getSolicitudesAprobadas(): Observable<SolicitudDto[]> {
+    return this.http.get<SolicitudDto[]>(`${this.apiUrl}/aprobadas`);
+  }
+  
   // Método para crear las cabeceras con el token
   private createAuthorizationHeader(): HttpHeaders {
     const token = localStorage.getItem('accessToken'); // Cambiado a 'accessToken'

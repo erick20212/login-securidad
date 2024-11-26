@@ -23,7 +23,8 @@ h1 {
   grid-template-areas:
     "student-data selection-section"
     "company-data company-data";
-  gap: 15px;
+  column-gap: 20px; /* Espaciado solo entre las columnas */
+  row-gap: 0; /* Aseguramos que no haya espacio entre filas */
 }
 
 .student-data {
@@ -115,6 +116,7 @@ input, select, .short-input {
   justify-content: center;
   gap: 10px;
   margin-top: 15px;
+  margin-bottom: 60px;
 }
 
 .btn-cancelar, .btn-confirmar {
@@ -144,4 +146,17 @@ input, select, .short-input {
   text-align: center;
   border-radius: 5px;
   font-size: 14px;
+  margin-bottom: 50px;
+}
+
+@media (max-width: 1000px) {
+  .info-section {
+    grid-template-columns: 1fr; /* Cambia a una sola columna */
+    grid-template-areas:
+      "student-data"
+      "selection-section"
+      "company-data"; /* Mueve company-data hacia abajo */
+    row-gap: 20px; /* Añade espacio entre filas */
+    column-gap: 0; /* Quita el espacio entre columnas */
+  }
 }

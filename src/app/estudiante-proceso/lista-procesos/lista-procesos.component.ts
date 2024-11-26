@@ -1,14 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { SolicitudDto } from '../../interfaces/solicitud-dto';
+import { SolicitudService } from '../../core/services/solicitud.service';
 
-interface Proceso {
-  nombre: string;
-  codigo: string;
-  empresa: string;
-  ruc: string;
-  estado: string;
-}
+
 
 @Component({
   selector: 'app-lista-procesos',
@@ -18,12 +14,22 @@ interface Proceso {
   styleUrls: ['./lista-procesos.component.css']
 })
 export class ListaProcesosComponent implements OnInit {
-  procesos: Proceso[] = [
-    { nombre: 'Empresa 001', codigo: '202420900', empresa: 'Apple', ruc: '20100020004', estado: 'En espera' },
-    { nombre: 'Empresa 002', codigo: '202420900', empresa: 'Apple', ruc: '20100020004', estado: 'En proceso' },
-  ];
+  solicitudes: SolicitudDto[] = [];
+  loading: boolean = true;
 
-  constructor() {}
+  constructor(private solicitudService: SolicitudService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // Consumir el endpoint para obtener las solicitudes del estudiante autenticado
+    this.solicitudService.getSolicitudesDelEstudiante().subscribe(
+      (data) => {
+        this.solicitudes = data; // Asignamos las solicitudes obtenidas
+        this.loading = false; // Cambiamos el estado de carga
+      },
+      (error) => {
+        console.error('Error al obtener las solicitudes del estudiante autenticado', error);
+        this.loading = false; // En caso de error cambiamos el estado de carga
+      }
+    );
+  }
 }
