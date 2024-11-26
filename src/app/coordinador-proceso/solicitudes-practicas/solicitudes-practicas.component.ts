@@ -25,35 +25,53 @@ export class SolicitudesPracticasComponent implements OnInit {
     this.cargarSolicitudes();
   }
 
+  // Método para cargar las solicitudes
   cargarSolicitudes(): void {
     this.solicitudService.getSolicitudes().subscribe({
       next: (data: SolicitudDto[]) => {
-        console.log('Solicitudes obtenidas:', data); // Verifica si las solicitudes tienen los datos correctos
         this.solicitudes = data;
         this.isLoading = false;
       },
       error: (error) => {
         this.toastr.error('Error al cargar las solicitudes.', 'Error');
-        console.error('Error:', error);
+        console.error('Error al cargar las solicitudes:', error);
         this.isLoading = false;
       },
     });
   }
+
+  // Método para cambiar el estado de una solicitud
+  cambiarEstadoSolicitud(solicitudId: number, nuevoEstado: string): void {
+    this.solicitudService.actualizarEstadoSolicitud(solicitudId, nuevoEstado).subscribe({
+      next: (response) => {
+        this.toastr.success(response.message, 'Estado Actualizado');
+        // Actualizar el estado en la lista local
+        const solicitud = this.solicitudes.find(s => s.id === solicitudId);
+        if (solicitud) {
+          solicitud.estado = nuevoEstado;
+        }
+      },
+      error: (error) => {
+        this.toastr.error('Error al actualizar el estado.', 'Error');
+        console.error('Error al actualizar el estado:', error);
+      },
+    });
+  }
+
+  // Método para asignar clases dinámicas según el estado
   getEstadoClase(estado: string | null): string {
-    switch (estado) {
-      case 'En Proceso':
+    if (!estado) {
+      return '';
+    }
+    switch (estado.toLowerCase()) {
+      case 'en proceso':
         return 'en-proceso';
-      case 'Aprobada':
+      case 'aprobada':
         return 'aprobada';
-      case 'Rechazada':
+      case 'rechazada':
         return 'rechazada';
       default:
-        return '';
+        return 'estado-default';
     }
-  }
-  
-  verDetalle(id: number | null): void {
-    console.log('Ver detalle para la solicitud con ID:', id);
-    // Aquí podrías navegar a otra vista o abrir un modal con los detalles.
   }
 }

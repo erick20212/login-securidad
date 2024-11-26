@@ -8,30 +8,31 @@
   <div *ngIf="!isLoading && solicitudes.length > 0" class="solicitudes-grid">
     <div *ngFor="let solicitud of solicitudes" class="solicitud-card">
       <div class="solicitud-header">
-        <div>
-          <strong>Nombre:</strong> {{ solicitud.estudiante?.nombre || 'N/A' }}
-        </div>
-        <div>
-          <strong>Código:</strong> {{ solicitud.estudiante?.codigo || 'N/A' }}
-        </div>
+        <div><strong>Nombre:</strong> {{ solicitud.estudiante?.nombre || 'N/A' }}</div>
+        <div><strong>Código:</strong> {{ solicitud.estudiante?.codigo || 'N/A' }}</div>
       </div>
       <div class="solicitud-body">
-        <div>
-          <strong>Empresa:</strong> {{ solicitud.empresa?.razonSocial || 'N/A' }}
-        </div>
-        <div>
-          <strong>Dirección Empresa:</strong> {{ solicitud.empresa?.direccion || 'N/A' }}
-        </div>
-        <div>
-          <strong>Línea de Carrera:</strong> {{ solicitud.lineaCarrera?.nombre || 'N/A' }}
-        </div>
+        <div><strong>Empresa:</strong> {{ solicitud.empresa?.razonSocial || 'N/A' }}</div>
+        <div><strong>Línea de Carrera:</strong> {{ solicitud.lineaCarrera?.nombre || 'N/A' }}</div>
       </div>
       <div class="solicitud-footer">
         <div>
-          <strong>Estado:</strong> <span [class]="getEstadoClase(solicitud.estado)">{{ solicitud.estado || 'N/A' }}</span>
+          <strong>Estado:</strong>
+          <span [class]="getEstadoClase(solicitud.estado)">{{ solicitud.estado || 'N/A' }}</span>
         </div>
-        <button class="ver-detalle-btn" (click)="verDetalle(solicitud.id)">
-          <i class="fa fa-eye"></i>
+        <button
+          *ngIf="solicitud.id !== null"
+          class="btn-aceptar"
+          (click)="cambiarEstadoSolicitud(solicitud.id!, 'aceptado')"
+        >
+          Aceptar
+        </button>
+        <button
+          *ngIf="solicitud.id !== null"
+          class="btn-rechazar"
+          (click)="cambiarEstadoSolicitud(solicitud.id!, 'rechazado')"
+        >
+          Rechazar
         </button>
       </div>
     </div>
