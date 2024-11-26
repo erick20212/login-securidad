@@ -1,59 +1,5 @@
 <app-excel></app-excel>
 <app-supervisor></app-supervisor> 
 <app-estudiante></app-estudiante>
-    <!-- Representantes -->
-    <div class="admin-card col-12 col-md-6 col-lg-3 mb-4">
-      <h3 class="text-center" (click)="toggleSection('representantes')">Representantes</h3>
-      <div *ngIf="isSectionVisible('representantes')" class="admin-actions">
-        <div class="action-item" (click)="selectOption('representantes')">
-          <i class="pi pi-user-plus"></i>
-          <p>Crear Representante</p>
-        </div>
-        <div class="action-item" (click)="selectOption('representantes')">
-          <i class="pi pi-user-edit"></i>
-          <p>Editar Representante</p>
-        </div>
-        <div class="action-item" (click)="selectOption('representantes')">
-          <i class="pi pi-list"></i>
-          <p>Listar Representantes</p>
-        </div>
-        <div class="action-item" (click)="selectOption('representantes')">
-          <i class="pi pi-trash"></i>
-          <p>Eliminar Representante</p>
-        </div>
-        <div class="action-item" (click)="selectOption('representantes')">
-          <i class="pi pi-file-excel"></i>
-          <p>Exportar representantes en EXCEL</p>
-        </div>
-      </div>
-    </div>
-
-
 <app-linea></app-linea>
 <app-plan></app-plan>
-    <!-- Matriculas -->
-    <div class="admin-card col-12 col-md-6 col-lg-3 mb-4">
-      <h3 class="text-center" (click)="toggleSection('Matriculas')">Matriculas</h3>
-      <div *ngIf="isSectionVisible('Matriculas')" class="admin-actions">
-        <div class="action-item" (click)="selectOption('Matriculas')">
-          <i class="pi pi-graduation-cap"></i>
-          <p>Crear Matricula </p>
-        </div>
-        <div class="action-item" (click)="selectOption('Matriculas')">
-          <i class="pi pi-pencil"></i>
-          <p>Editar Matricula </p>
-        </div>
-        <div class="action-item" (click)="selectOption('Matriculas')">
-          <i class="pi pi-list"></i>
-          <p>Listar Matriculas </p>
-        </div>
-        <div class="action-item" (click)="selectOption('Matriculas')">
-          <i class="pi pi-trash"></i>
-          <p>Eliminar Matriculas</p>
-        </div>
-        <div class="action-item" (click)="selectOption('Matriculas')">
-          <i class="pi pi-file-excel"></i>
-          <p>Exportar Planes en EXCEL</p>
-        </div>
-      </div>
-    </div>

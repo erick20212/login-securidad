@@ -17,9 +17,7 @@ import { SupervisorComponent } from '../supervisor/supervisor.component';
     DialogModule,
     InputTextModule,
     ButtonModule,
-    FormsModule,
-    ExcelComponent,
-    SupervisorComponent,
+    FormsModule
   ],
   templateUrl: './plan.component.html',
   styleUrls: ['./plan.component.css'], // Cambiado a `styleUrls` (con "s"), ya que es un arreglo

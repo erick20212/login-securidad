@@ -4,21 +4,26 @@ import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
 import { ExcelComponent } from "./excel/excel.component";
 import { SupervisorComponent } from "./supervisor/supervisor.component";
 import { EstudianteComponent } from "./estudiante/estudiante.component";
 import { LineaComponent } from "./linea/linea.component";
 import { PlanComponent } from "./plan/plan.component";
+import { MessageService } from 'primeng/api';  // Importar MessageService
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-mantener',
   standalone: true,
-  imports: [CommonModule, DialogModule, InputTextModule, ButtonModule, FormsModule, ExcelComponent, SupervisorComponent, EstudianteComponent, LineaComponent, PlanComponent],
+  imports: [
+    CommonModule, DialogModule, InputTextModule, ButtonModule, FormsModule,
+    ExcelComponent, SupervisorComponent, EstudianteComponent, LineaComponent, PlanComponent
+  ],
+  providers: [MessageService],  // Proveer MessageService aquí
   templateUrl: './mantener.component.html',
   styleUrls: ['./mantener.component.css']
 })
-export class MantenerComponent {
+export class MantenerComponent implements OnInit {
   private visibleSections: { [key: string]: boolean } = {};
   isDialogVisible: boolean = false;
   isConfirmationVisible: boolean = false; // Flag para mostrar el diálogo de confirmación
@@ -31,14 +36,15 @@ export class MantenerComponent {
   linea = { nombre: '' };
   empresa = { razonSocial: '', direccion: '', email: '', telefono: '' };
 
- // Variables de control de los diálogos
- isEstudianteDialogVisible: boolean = false;
- isEmpresaDialogVisible: boolean = false;
- isLineaDialogVisible: boolean = false;
- isPlanDialogVisible: boolean = false;
+  // Variables de control de los diálogos
+  isEstudianteDialogVisible: boolean = false;
+  isEmpresaDialogVisible: boolean = false;
+  isLineaDialogVisible: boolean = false;
+  isPlanDialogVisible: boolean = false;
 
- constructor(private http: HttpClient) {}
- ngOnInit(): void {}
+  constructor(private http: HttpClient) {}
+
+  ngOnInit(): void {}
 
   // Lógica para mostrar y ocultar secciones
   toggleSection(section: string): void {
@@ -48,7 +54,6 @@ export class MantenerComponent {
   isSectionVisible(section: string): boolean {
     return this.visibleSections[section] || false;
   }
-
 
   // Lógica para seleccionar una opción
   selectOption(option: string): void {

@@ -15,6 +15,6 @@ export class ExcelService {
     const formData = new FormData();
     formData.append('file', file, file.name); // Agrega el archivo al FormData
 
-    return this.http.post(`${this.apiUrl}/upload`, formData);
+    return this.http.post(`${this.apiUrl}/upload `, formData);
   }
 }
