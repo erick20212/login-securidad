@@ -1,6 +1,6 @@
 /* Estilos generales */
 .container {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 30px 20px; /* Mayor padding */
   padding-bottom: 50px;
@@ -72,11 +72,7 @@
   font-weight: bold;
 }
 
-.admin-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
+
 
 .action-item {
   display: flex;
@@ -204,3 +200,45 @@
   transform: scale(0.98); /* Reducción sutil al presionar */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.15); /* Sombra activa */
 }
+
+
+
+.btn-container {
+  
+  
+  gap: 10px; /* Espacio entre los botones */
+  justify-content: center; /* Centra los botones horizontalmente */
+}
+
+.btn-guardar, .btn-cancelar {
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.btn-guardar, .btn-cancelar {
+  background-color: rgb(46, 109, 202);
+  color: white;
+  margin-top: 10px;
+  border-radius: 20px;
+  transition: background-color 0.3s ease, transform 0.3s ease; /* Añadido transition */
+}
+
+.btn-cancelar {
+  background-color: rgb(46, 109, 202);
+}
+
+.btn-guardar:hover, .btn-cancelar:hover {
+  background-color: rgb(28, 19, 80);
+  color: white;
+  margin-top: 10px;
+  border-radius: 20px;
+  transform: scale(1.05); /* Añadido efecto de escala */
+}
+
+
+
+
+
+
+

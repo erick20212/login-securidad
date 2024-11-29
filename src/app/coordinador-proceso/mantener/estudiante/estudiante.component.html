@@ -50,9 +50,10 @@
 
   <p-footer>
     <button pButton label="Guardar" icon="pi pi-check" (click)="saveEstudiante()" 
-            [disabled]="!estudiante.nombre || !estudiante.apellido || !estudiante.email || !estudiante.dni || !estudiante.codigo || !estudiante.telefono">
+            [disabled]="!estudiante.nombre || !estudiante.apellido || !estudiante.email || !estudiante.dni || !estudiante.codigo || !estudiante.telefono"
+            class="btn-guardar">
     </button>
-    <button pButton label="Cancelar" icon="pi pi-times" (click)="closeDialog()"></button>
+    <button pButton label="Cancelar" icon="pi pi-times" (click)="closeDialog()" class="btn-cancelar"></button>
   </p-footer>
 </p-dialog>
 
@@ -60,7 +61,7 @@
 <p-toast></p-toast>
 
 <!-- Diálogo para Listado de Estudiantes con paginación y buscador -->
-<p-dialog header="Listado de Estudiantes" [(visible)]="isListDialogVisible" [modal]="true" [closable]="true" [responsive]="true" [style]="{ width: '90vw', maxWidth: '1200px', height: '80vh', maxHeight: '80vh' }">
+<p-dialog header="Listado de Estudiantes" [(visible)]="isListDialogVisible" [modal]="true" [closable]="true" [responsive]="true" [style]="{ width: '90vw', maxWidth: '1300px', height: '80vh', maxHeight: '80vh' }">
   <div class="p-fluid supervisores-container" style="overflow:auto; height: 100%;">
 
     <!-- Campo de búsqueda -->
@@ -134,8 +135,16 @@
     </div>
   </div>
 
-  <p-footer>
-    <button pButton label="Guardar" icon="pi pi-check" (click)="updateEstudiante()"></button>
-    <button pButton label="Cancelar" icon="pi pi-times" (click)="displayEditDialog = false"></button>
-  </p-footer>
+  
+    <div class="btn-guardar" (click)="updateEstudiante()">
+      <i class="pi pi-check"></i>
+      <span> Guardar</span>
+    </div>
+    <div class="btn-cancelar" (click)="displayEditDialog = false">
+      <i class="pi pi-times"></i>
+      <span> Cancelar</span>
+    </div>
+  
 </p-dialog>
+
+
