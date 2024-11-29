@@ -58,11 +58,19 @@
 
 <!-- Notificación de éxito -->
 <p-toast></p-toast>
-<!-- Diálogo para Listado de Estudiantes con paginación -->
+
+<!-- Diálogo para Listado de Estudiantes con paginación y buscador -->
 <p-dialog header="Listado de Estudiantes" [(visible)]="isListDialogVisible" [modal]="true" [closable]="true" [responsive]="true" [style]="{ width: '90vw', maxWidth: '1200px', height: '80vh', maxHeight: '80vh' }">
   <div class="p-fluid supervisores-container" style="overflow:auto; height: 100%;">
+
+    <!-- Campo de búsqueda -->
+    <div class="p-field">
+      <label for="search" class="sr-only">Buscar Estudiantes</label>
+      <input id="search" type="text" pInputText [(ngModel)]="searchQuery" (input)="filterEstudiantes()" placeholder="Buscar Estudiantes..." />
+    </div>
+
     <!-- Usando p-table para manejar el paginado -->
-    <p-table [value]="estudiante2" [paginator]="true" [rows]="5" [responsive]="true" [rowsPerPageOptions]="[5, 10, 15]" [(first)]="first" [loading]="loading" [style]="{ width: '100%' }">
+    <p-table [value]="filteredEstudiantes" [paginator]="true" [rows]="5" [responsive]="true" [rowsPerPageOptions]="[5, 10, 15]" [(first)]="first" [loading]="loading" [style]="{ width: '100%' }">
       <ng-template pTemplate="header">
         <tr>
           <th>Nombre</th>
@@ -91,7 +99,6 @@
     </p-table>
   </div>
 </p-dialog>
-
 
 <!-- Diálogo para Editar Estudiante -->
 <p-dialog header="Editar Estudiante" [(visible)]="displayEditDialog" [modal]="true" [responsive]="true" [style]="{ width: '400px' }">

@@ -21,7 +21,6 @@ import { TableModule } from 'primeng/table'; // Importa TableModule
     InputTextModule,
     CommonModule,
     ToastModule,
-    DialogModule,
     TableModule
   ],
   templateUrl: './estudiante.component.html',
@@ -35,6 +34,7 @@ export class EstudianteComponent implements OnInit {
   isDialogVisible: boolean = false;
   isListDialogVisible: boolean = false;
   estudiante2: Estudiante[] = [];
+  
   selectedEstudiante: Estudiante = { nombre: '', apellido: '', email: '', dni: '', codigo: '', telefono: '' };
   displayEditDialog: boolean = false; // Visibilidad del cuadro de diálogo
   showDeleteButton: boolean = true;  // Controla la visibilidad del botón de eliminar
@@ -42,6 +42,8 @@ export class EstudianteComponent implements OnInit {
   // Propiedades para paginación y estado de carga
   first: number = 0; // Establece el primer índice de la página
   loading: boolean = false; // Controla el estado de carga
+  searchQuery: string = ''; // Variable para el campo de búsqueda
+  filteredEstudiantes: Estudiante[] = []; // Lista filtrada de estudiantes
 
   constructor(private estudianteService: EstudianteService, private toastr: ToastrService, private confirmationService: ConfirmationService) {}
 
@@ -98,19 +100,13 @@ export class EstudianteComponent implements OnInit {
   // Actualizar estudiante
   updateEstudiante(): void {
     if (this.selectedEstudiante) {
-      // Aquí puedes actualizar el estudiante localmente si lo estás manteniendo en un servicio
       this.estudianteService.updateEstudiante(this.selectedEstudiante).subscribe({
         next: (response) => {
-          // Actualizamos el arreglo de estudiantes
           const index = this.estudiante2.findIndex(est => est.id === this.selectedEstudiante.id);
           if (index !== -1) {
             this.estudiante2[index] = { ...this.selectedEstudiante }; // Actualizamos los datos
           }
-
-          // Cerrar diálogo de edición
-          this.displayEditDialog = false;
-
-          // Mostrar mensaje de éxito
+          this.displayEditDialog = false; // Cerrar diálogo
           this.toastr.success('Estudiante actualizado correctamente.');
         },
         error: (error) => {
@@ -126,10 +122,27 @@ export class EstudianteComponent implements OnInit {
     this.estudianteService.getEstudiantes().subscribe({
       next: (data: Estudiante[]) => {
         this.estudiante2 = data;
+        this.filteredEstudiantes = [...this.estudiante2]; // Inicializar lista filtrada
       },
       error: (error) => {
         console.error('Error cargando estudiantes', error);
       }
     });
   }
+
+  // Función para filtrar estudiantes
+  filterEstudiantes(): void {
+    if (this.searchQuery.trim() === '') {
+      this.filteredEstudiantes = [...this.estudiante2]; // Si no hay búsqueda, mostrar todos los estudiantes
+    } else {
+      this.filteredEstudiantes = this.estudiante2.filter(estudiante => {
+        return estudiante.nombre.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+               estudiante.apellido.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+               estudiante.email.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+               estudiante.codigo.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+               estudiante.dni.includes(this.searchQuery);
+      });
+    }
+  }
+
 }
