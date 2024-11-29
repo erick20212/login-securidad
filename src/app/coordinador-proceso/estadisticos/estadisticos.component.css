@@ -1,0 +1,73 @@
+/* Contenedor principal */
+.container {
+  padding: 15px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Fila para contener la tabla y el gráfico */
+.content-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px; /* Espacio entre la tabla y el gráfico */
+  flex-wrap: wrap; /* Permite que en pantallas pequeñas los elementos se apilen */
+}
+
+/* Sección de Estadísticas de Roles */
+.roles-section {
+  flex: 1; /* Hace que la tabla ocupe todo el espacio disponible */
+  min-width: 300px; /* Mínimo ancho para evitar que la tabla sea demasiado pequeña */
+  max-width: 500px; /* Máximo ancho para la tabla */
+  margin-bottom: 20px;
+}
+
+/* Estilo de la Tabla */
+.table {
+  width: 100%;
+  border-collapse: collapse; /* Hace que los bordes no se dupliquen */
+  font-size: 0.875rem; /* Tamaño de fuente más pequeño */
+  background-color: #fff; /* Fondo blanco para la tabla */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil para la tabla */
+  border-radius: 5px; /* Bordes redondeados */
+}
+
+.table th,
+.table td {
+  padding: 12px; /* Espaciado interno de celdas */
+  text-align: left; /* Alineación de texto a la izquierda */
+  border-bottom: 1px solid #ddd; /* Borde sutil en las filas */
+}
+
+.table th {
+  background-color: #f8f9fa; /* Fondo más claro para las cabeceras */
+  font-weight: 600; /* Resalta las cabeceras */
+}
+
+.table tr:hover {
+  background-color: #f1f1f1; /* Resaltar filas al pasar el ratón */
+}
+
+/* Sección del gráfico */
+.chart-section {
+  flex: 2; /* El gráfico ocupa el doble de espacio que la tabla */
+  min-width: 400px; /* Mínimo ancho para el gráfico */
+  max-width: 800px; /* Máximo ancho para el gráfico */
+}
+
+/* El gráfico */
+.chart-canvas {
+  width: 180%;  /* El gráfico se adapta al ancho de su contenedor */
+  height: 400px; /* Altura ajustada del gráfico */
+  margin: 0 auto; /* Centra el gráfico */
+}
+
+/* Diseño Responsivo */
+@media (max-width: 768px) {
+  .chart-canvas {
+    height: 250px;  /* Reducir aún más la altura en pantallas pequeñas */
+  }
+  .roles-section, .chart-section {
+    flex: 1 1 100%; /* Hace que ambos se apilen en pantallas pequeñas */
+    min-width: 100%; /* Elimina el límite mínimo de tamaño en pantallas pequeñas */
+  }
+}

@@ -82,6 +82,13 @@
         </a>
       </li>
 
+      <li *ngIf="role === 'coordinador'">
+        <a routerLink="/dashboard/estadistico">
+          <fa-icon [icon]="faFileAlt"></fa-icon>
+          <span class="nav-item" *ngIf="!isCollapsed">Estadísticos</span>
+        </a>
+      </li>
+
       <li *ngIf="role === 'supervisor'">
         <a routerLink="/dashboard/listas-solicitudes-aprobadas">
           <fa-icon [icon]="faFileAlt"></fa-icon>

@@ -6,26 +6,19 @@ import { NgChartsModule } from 'ng2-charts';  // Importa el módulo correcto
 
 // Asegúrate de registrar los tipos de gráficos necesarios
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
-import { ExcelComponent } from "./excel/excel.component";
-import { SupervisorComponent } from "./supervisor/supervisor.component";
-import { EstudianteComponent } from "./estudiante/estudiante.component";
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);  // Asegúrate de registrar estos elementos
 
 @Component({
-  selector: 'mantener',
+  selector: 'estadisticos',
   standalone: true,
-  templateUrl: './mantener.component.html',
-  styleUrls: ['./mantener.component.css'],
+  templateUrl: './estadisticos.component.html',
+  styleUrls: ['./estadisticos.component.css'],
   imports: [
     CommonModule,
     NgChartsModule // Importa el módulo correcto
-    ,
-    ExcelComponent,
-    SupervisorComponent,
-    EstudianteComponent
-]
+  ]
 })
-export class Mantener implements OnInit {
+export class RolesEstadisticasComponent implements OnInit {
   isEstudianteVisible: boolean = true;  // Inicializado en 'true'
 
   rolesData: any[] = [];  // Cambiado a un array vacío, para evitar posibles problemas con objetos

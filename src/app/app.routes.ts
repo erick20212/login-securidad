@@ -17,8 +17,9 @@ import { InformeFinalComponent } from './estudiante-proceso/informe-final/inform
 import { ListaInformesPracticasComponent } from './supervisor-proceso/lista-informes-practicas/lista-informes-practicas.component';
 import { InformeDetalleComponent } from './supervisor-proceso/lista-informes-practicas/informe-detalle/informe-detalle.component';
 import { ListaHorasCompletasComponent } from './estudiante-proceso/lista-horas-completas/lista-horas-completas.component';
-import { MantenerComponent } from './coordinador-proceso/mantener/mantener.component';
 import { AccessDeniedComponent } from './core/guards/access-denied.component';
+import { RolesEstadisticasComponent } from './coordinador-proceso/estadisticos/estadisticos.component';
+import { Mantener } from './coordinador-proceso/mantener/mantener.component';
 
 
 export const routes: Routes = [
@@ -99,7 +100,13 @@ export const routes: Routes = [
       },
       { 
         path: 'mantener', 
-        component: MantenerComponent, 
+        component: Mantener, 
+        canActivate: [AuthGuard], 
+        data: { roles: ['coordinador'] } 
+      },
+      { 
+        path: 'estadistico', 
+        component: RolesEstadisticasComponent, 
         canActivate: [AuthGuard], 
         data: { roles: ['coordinador'] } 
       },

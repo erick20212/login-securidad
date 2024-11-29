@@ -10,11 +10,12 @@ import { ToastModule } from 'primeng/toast';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { PersonaUsuarioDTO, SupervisorDTO } from '../../../interfaces/mantener';
 import { SupervisorService } from '../../../core/services/SupervisorService.service';
+import { EstudianteComponent } from "../estudiante/estudiante.component";
 
 @Component({
   selector: 'app-supervisor',
   standalone: true,
-  imports: [CommonModule, DialogModule, InputTextModule, ButtonModule, FormsModule, ToastModule],
+  imports: [CommonModule, DialogModule, InputTextModule, ButtonModule, FormsModule, ToastModule, EstudianteComponent],
   templateUrl: './supervisor.component.html',
   styleUrls: ['./supervisor.component.css'],
   providers: [MessageService, ConfirmationService]
@@ -26,6 +27,7 @@ export class SupervisorComponent implements OnInit {
   submitted: boolean = false;
   selectedSupervisor: any = {};
   displayEditDialog: boolean = false; // Visibilidad del cuadro de diálogo
+  isEstudianteVisible: boolean = true;  // Inicializado en 'true'
 
   // Usamos PersonaUsuarioDTO solo para insertar un nuevo supervisor
   supervisor: PersonaUsuarioDTO = { nombre: '', apellido: '', emailPersona: '', dni: '' };
