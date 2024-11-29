@@ -21,7 +21,7 @@
 
       <!-- Columna 3: Estado -->
       <div class="proceso-status">
-        <p><strong>Estado:</strong></p> <!-- Mueve la etiqueta "Estado" a una línea aparte -->
+        <p><strong>Estado:</strong></p>
         <p>
           <span 
             [ngClass]="{
@@ -52,5 +52,64 @@
   <!-- Mensaje de "No hay solicitudes" -->
   <div *ngIf="!isLoading && solicitudes.length === 0">
     <p>No hay solicitudes disponibles.</p>
+  </div>
+
+  <!-- Botón fijo para abrir el modal de eliminar -->
+  <button class="btn-eliminar-fijo" (click)="abrirModalEliminar()">Eliminar Solicitudes</button>
+
+  <!-- Modal para eliminar solicitudes -->
+  <div *ngIf="mostrarModalEliminar" class="modal-overlay">
+    <div class="modal-eliminar">
+      <h2 class="modal-title">Solicitudes de Prácticas Enviadas</h2>
+      <div class="solicitudes-list">
+        <div *ngFor="let solicitud of solicitudesEnProceso" class="proceso-cardio">
+          <!-- Columna 1: Nombre y Código -->
+          <div class="proceso-info">
+            <p><strong>Nombre:</strong> {{ solicitud.estudiante?.nombre || 'N/A' }}</p>
+            <p><strong>Código:</strong> {{ solicitud.estudiante?.codigo || 'N/A' }}</p>
+          </div>
+        
+          <!-- Columna 2: Empresa y Línea de Carrera -->
+          <div class="proceso-info">
+            <p><strong>Empresa:</strong> {{ solicitud.empresa?.razonSocial || 'N/A' }}</p>
+            <p><strong>Linea de Carrera:</strong> {{ solicitud.lineaCarrera?.nombre || 'N/A' }}</p>
+          </div>
+        
+          <!-- Columna 3: Estado -->
+          <div class="proceso-status">
+            <p><strong>Estado:</strong></p>
+            <p>
+              <span
+                [ngClass]="{
+                  'estado-en-proceso': solicitud.estado === 'En proceso',
+                  'estado-aceptado': solicitud.estado === 'Aceptado',
+                  'estado-rechazado': solicitud.estado === 'Rechazado'
+                }">
+                <i
+                  [ngClass]="{
+                    'fa-spinner': solicitud.estado === 'En proceso',
+                    'fa-check-circle': solicitud.estado === 'Aceptado',
+                    'fa-times-circle': solicitud.estado === 'Rechazado'
+                  }"
+                  class="fas estado-icono"
+                ></i>
+                {{ solicitud.estado || 'N/A' }}
+              </span>
+            </p>
+          </div>
+        
+          <!-- Columna 4: Icono de eliminación -->
+          <div class="proceso-eliminar">
+            <i class="fas fa-times eliminar-icono" (click)="eliminarSolicitud(solicitud.id)"></i>
+          </div>
+        </div>
+
+
+
+
+      <div class="modal-footer">
+        <button class="btn btn-secundario" (click)="cerrarModalEliminar()">Cerrar</button>
+      </div>
+    </div>
   </div>
 </div>

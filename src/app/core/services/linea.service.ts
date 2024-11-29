@@ -7,7 +7,7 @@ import { Linea } from '../../interfaces/linea';
   providedIn: 'root',
 })
 export class LineaService {
-  private baseUrl = 'http://localhost:8080/api/linea';  // Asegúrate de tener la URL correcta
+  private baseUrl = 'http://localhost:8080/api/linea'; // Asegúrate de tener la URL correcta
 
   constructor(private http: HttpClient) {}
 
@@ -20,10 +20,12 @@ export class LineaService {
   }
 
   updateLinea(linea: Linea): Observable<Linea> {
+    // Usar comillas invertidas (backticks) correctamente
     return this.http.put<Linea>(`${this.baseUrl}/${linea.id}`, linea);
   }
 
   deleteLinea(id: number): Observable<void> {
+    // Usar comillas invertidas (backticks) correctamente
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 }

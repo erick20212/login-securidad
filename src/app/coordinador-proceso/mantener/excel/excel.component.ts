@@ -1,6 +1,12 @@
 import { Component } from '@angular/core';
+<<<<<<< HEAD
 import * as XLSX from 'xlsx'; // Importar librería XLSX
 import { ExcelService } from '../../../core/services/ExcelService.service';
+=======
+import { HttpClient } from '@angular/common/http';
+import * as XLSX from 'xlsx';  // Importar librería XLSX
+import { ExcelService } from '../../../core/services/Excelservice.service';
+>>>>>>> 36b179465f299f042f2a1b20d404f7fe5032cf5c
 
 @Component({
   selector: 'app-excel',
