@@ -16,8 +16,16 @@ import { HttpClient } from '@angular/common/http';
   selector: 'app-mantener',
   standalone: true,
   imports: [
-    CommonModule, DialogModule, InputTextModule, ButtonModule, FormsModule,
-    ExcelComponent, SupervisorComponent, EstudianteComponent, LineaComponent, PlanComponent
+    CommonModule, 
+    DialogModule, 
+    InputTextModule, 
+    ButtonModule, 
+    FormsModule,
+    ExcelComponent, // Asegúrate de que esté importado
+    SupervisorComponent,
+    EstudianteComponent,
+    LineaComponent,
+    PlanComponent
   ],
   providers: [MessageService],  // Proveer MessageService aquí
   templateUrl: './mantener.component.html',
@@ -28,6 +36,7 @@ export class MantenerComponent implements OnInit {
   isDialogVisible: boolean = false;
   isConfirmationVisible: boolean = false; // Flag para mostrar el diálogo de confirmación
   submitted: boolean = false; // Bandera para validar el formulario
+  isEstudianteVisible = true; // Este valor controla la visibilidad
 
   // Supervisor, Estudiante, Planes, Línea y Empresa
   supervisor = { nombre: '', apellido: '', email: '', dni: '' };

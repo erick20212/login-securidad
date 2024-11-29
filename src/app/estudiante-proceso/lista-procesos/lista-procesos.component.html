@@ -1,37 +1,56 @@
 <div class="lista-container">
-  <h1>Lista de Solicitudes de Prácticas Pre-profesionales</h1>
-  
-  <!-- Barra de búsqueda y filtro -->
-  <div class="search-filter-bar">
-    <input type="text" placeholder="Buscar..." class="search-input" />
-    <button class="filter-button">
-      <i class="fas fa-filter"></i>
-    </button>
+  <h1>Lista de Solicitudes</h1>
+
+  <!-- Loader -->
+  <div *ngIf="isLoading" class="loader">Cargando solicitudes...</div>
+
+  <!-- Lista de Solicitudes -->
+  <div *ngIf="!isLoading && solicitudes.length > 0" class="solicitudes-grid">
+    <div *ngFor="let solicitud of solicitudes" class="proceso-card">
+      <!-- Columna 1: Nombre y Código -->
+      <div class="proceso-info">
+        <p><strong>Nombre:</strong> {{ solicitud.estudiante?.nombre || 'N/A' }}</p>
+        <p><strong>Código:</strong> {{ solicitud.estudiante?.codigo || 'N/A' }}</p>
+      </div>
+
+      <!-- Columna 2: Empresa y Línea de Carrera -->
+      <div class="proceso-info">
+        <p><strong>Empresa:</strong> {{ solicitud.empresa?.razonSocial || 'N/A' }}</p>
+        <p><strong>Linea de Carrera:</strong> {{ solicitud.lineaCarrera?.nombre || 'N/A' }}</p>
+      </div>
+
+      <!-- Columna 3: Estado -->
+      <div class="proceso-status">
+        <p><strong>Estado:</strong></p> <!-- Mueve la etiqueta "Estado" a una línea aparte -->
+        <p>
+          <span 
+            [ngClass]="{
+              'estado-en-proceso': solicitud.estado === 'En proceso',
+              'estado-aceptado': solicitud.estado === 'Aceptado',
+              'estado-rechazado': solicitud.estado === 'Rechazado'
+            }">
+            <i
+              [ngClass]="{
+                'fa-spinner': solicitud.estado === 'En proceso',
+                'fa-check-circle': solicitud.estado === 'Aceptado',
+                'fa-times-circle': solicitud.estado === 'Rechazado'
+              }"
+              class="fas estado-icono"
+            ></i>
+            {{ solicitud.estado || 'N/A' }}
+          </span>
+        </p>
+      </div>
+
+      <!-- Columna 4: Botón de Visualización -->
+      <div class="icono-ojito">
+        <i class="fas fa-eye" (click)="abrirModal(solicitud)"></i>
+      </div>
+    </div>
   </div>
 
-  <!-- Mensaje de carga -->
-  <div *ngIf="loading" class="loading-message">
-    <p>Cargando solicitudes...</p>
-  </div>
-  
-  <!-- Lista de solicitudes -->
-  <div *ngFor="let solicitud of solicitudes" class="proceso-card">
-    <div class="proceso-info">
-      <p><strong>Estudiante:</strong> {{ solicitud.estudiante?.nombre }}</p>
-      <p><strong>Código:</strong> {{ solicitud.estudiante?.codigo }}</p>
-    </div>
-    <div class="proceso-info">
-      <p><strong>Empresa:</strong> {{ solicitud.empresa?.razonSocial }}</p>
-    </div>
-    <div class="proceso-status">
-      <p><strong>Estado:</strong> 
-        <span [ngClass]="{'en-espera': solicitud.estado === 'En espera', 'en-proceso': solicitud.estado === 'En proceso'}">
-          {{ solicitud.estado }}
-        </span>
-      </p>
-      <button class="view-button">
-        <i class="fas fa-eye"></i>
-      </button>
-    </div>
+  <!-- Mensaje de "No hay solicitudes" -->
+  <div *ngIf="!isLoading && solicitudes.length === 0">
+    <p>No hay solicitudes disponibles.</p>
   </div>
 </div>

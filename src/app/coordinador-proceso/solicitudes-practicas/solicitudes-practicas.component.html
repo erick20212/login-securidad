@@ -7,36 +7,118 @@
   <!-- Lista de Solicitudes -->
   <div *ngIf="!isLoading && solicitudes.length > 0" class="solicitudes-grid">
     <div *ngFor="let solicitud of solicitudes" class="solicitud-card">
+      <!-- Encabezado con Nombre y Código -->
       <div class="solicitud-header">
         <div><strong>Nombre:</strong> {{ solicitud.estudiante?.nombre || 'N/A' }}</div>
         <div><strong>Código:</strong> {{ solicitud.estudiante?.codigo || 'N/A' }}</div>
       </div>
+      <!-- Cuerpo con Empresa y Línea de Carrera -->
       <div class="solicitud-body">
         <div><strong>Empresa:</strong> {{ solicitud.empresa?.razonSocial || 'N/A' }}</div>
         <div><strong>Línea de Carrera:</strong> {{ solicitud.lineaCarrera?.nombre || 'N/A' }}</div>
       </div>
-      <div class="solicitud-footer">
+      <!-- Estado con Iconos -->
+      <div>
+        <strong>Estado:</strong>
+        <span [ngClass]="{
+              'estado-default': solicitud.estado === 'En proceso',
+              'estado-aprobado': solicitud.estado === 'Aceptado',
+              'estado-rechazado': solicitud.estado === 'Rechazado'
+            }">
+          <i
+            [ngClass]="{
+              'fa-spinner': solicitud.estado === 'En proceso',
+              'fa-check-circle': solicitud.estado === 'Aceptado',
+              'fa-times-circle': solicitud.estado === 'Rechazado'
+            }"
+            class="fas estado-icono"
+          ></i>
+          {{ solicitud.estado || 'N/A' }}
+        </span>
+      </div>
+      <!-- Ojito para Detalles -->
+      <div class="icono-ojito">
+        <i class="fas fa-eye" (click)="abrirModal(solicitud)"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div *ngIf="mostrarModal" class="modal-overlay">
+    <div class="modal-content">
+      <!-- Botón de cerrar como icono -->
+      <button class="modal-close" (click)="cerrarModal()">×</button>
+      
+      <h2 class="modal-title">Detalles de la Solicitud</h2>
+  
+      <!-- Datos del estudiante -->
+      <h3>Datos del Estudiante</h3>
+      <div class="modal-grid compact">
         <div>
-          <strong>Estado:</strong>
-          <span [class]="getEstadoClase(solicitud.estado)">{{ solicitud.estado || 'N/A' }}</span>
+          <p><strong>Código:</strong> {{ solicitudSeleccionada?.estudiante?.codigo || 'N/A' }}</p>
+          <p><strong>Nombre:</strong> {{ solicitudSeleccionada?.estudiante?.nombre || 'N/A' }}</p>
         </div>
+        <div>
+          <p><strong>DNI:</strong> {{ solicitudSeleccionada?.estudiante?.dni || 'N/A' }}</p>
+          <p><strong>Teléfono:</strong> {{ solicitudSeleccionada?.estudiante?.telefono || 'N/A' }}</p>
+          <p><strong>Correo:</strong> {{ solicitudSeleccionada?.estudiante?.correo || 'N/A' }}</p>
+        </div>
+      </div>
+  
+      <!-- Datos de la empresa -->
+      <h3>Datos de la Empresa</h3>
+      <div class="modal-grid compact">
+        <div>
+          <p><strong>Razón Social:</strong> {{ solicitudSeleccionada?.empresa?.razonSocial || 'N/A' }}</p>
+          <p><strong>Dirección:</strong> {{ solicitudSeleccionada?.empresa?.direccion || 'N/A' }}</p>
+        </div>
+        <div>
+          <p><strong>Email:</strong> {{ solicitudSeleccionada?.empresa?.email || 'N/A' }}</p>
+          <p><strong>Teléfono:</strong> {{ solicitudSeleccionada?.empresa?.telefono || 'N/A' }}</p>
+        </div>
+      </div>
+  
+      <!-- Línea de carrera -->
+      <h3>Datos de la Línea de Carrera</h3>
+      <div class="modal-grid compact">
+        <div>
+          <p><strong>Nombre:</strong> {{ solicitudSeleccionada?.lineaCarrera?.nombre || 'N/A' }}</p>
+        </div>
+      </div>
+  
+      <!-- Estado de la solicitud -->
+      <h3>Estado de la Solicitud</h3>
+      <div class="modal-grid compact">
+        <div>
+          <p>
+            <strong>Estado:</strong>
+            <span [ngClass]="getEstadoClase(solicitudSeleccionada?.estado ?? 'default')">
+              {{ solicitudSeleccionada?.estado || 'N/A' }}
+            </span>
+          </p>
+          <p><strong>Fecha de Creación:</strong> {{ solicitudSeleccionada?.fechaCreacion || 'N/A' | date }}</p>
+        </div>
+      </div>
+  
+      <!-- Botones en la parte inferior derecha -->
+      <div class="modal-actions-right">
         <button
-          *ngIf="solicitud.id !== null"
           class="btn-aceptar"
-          (click)="cambiarEstadoSolicitud(solicitud.id!, 'aceptado')"
+          (click)="cambiarEstadoSolicitud(solicitudSeleccionada?.id!, 'Aceptado')"
         >
           Aceptar
         </button>
         <button
-          *ngIf="solicitud.id !== null"
           class="btn-rechazar"
-          (click)="cambiarEstadoSolicitud(solicitud.id!, 'rechazado')"
+          (click)="cambiarEstadoSolicitud(solicitudSeleccionada?.id!, 'Rechazado')"
         >
           Rechazar
         </button>
       </div>
     </div>
   </div>
+  
+  
 
   <!-- Mensaje de "No hay datos" -->
   <div *ngIf="!isLoading && solicitudes.length === 0">

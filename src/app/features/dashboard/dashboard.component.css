@@ -1,14 +1,20 @@
 /* Contenedor del dashboard */
 .dashboard-container {
+  position: relative; /* Marco para posicionamiento absoluto */
   display: flex;
   height: 100vh;
   margin: 0;
   padding: 0;
   font-family: 'Arial', sans-serif;
+  overflow: hidden; /* Evita desbordamiento */
 }
 
 /* Barra lateral */
 .sidebar {
+  position: absolute; /* Flotante */
+  top: 0;
+  left: 0;
+  height: 100%; /* Ocupa toda la altura */
   background-color: #03035f;
   color: #ffffff;
   width: 250px;
@@ -17,6 +23,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  z-index: 2; /* Siempre encima del contenido */
 }
 
 .sidebar.collapsed {
@@ -99,10 +106,12 @@
 
 /* Contenido principal */
 .content {
-  flex: 1;
+  position: relative; /* Permite que los elementos dentro se ajusten */
+  flex: 1; /* Ocupa todo el espacio disponible */
   padding: 20px;
   background-color: #f8f9fa;
-  transition: margin-left 0.3s ease;
+  margin-left: 250px; /* Espacio inicial para la sidebar */
+  transition: margin-left 0.3s ease; /* Transición suave al colapsar la sidebar */
 }
 
 .content.collapsed {

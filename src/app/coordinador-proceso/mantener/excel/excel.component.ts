@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import * as XLSX from 'xlsx';  // Importar librería XLSX
+import * as XLSX from 'xlsx'; // Importar librería XLSX
 import { ExcelService } from '../../../core/services/ExcelService.service';
-
 
 @Component({
   selector: 'app-excel',
@@ -13,16 +11,18 @@ import { ExcelService } from '../../../core/services/ExcelService.service';
 })
 export class ExcelComponent {
   selectedFile: File | null = null;
-  excelData: any[] = [];  // Variable para almacenar los datos del Excel
+  excelData: any[] = []; // Variable para almacenar los datos del Excel
+  successMessage: string = ''; // Mensaje de éxito
+  errorMessage: string = ''; // Mensaje de error
 
-  constructor(private excelService: ExcelService) {}  // Inyectar servicio
+  constructor(private excelService: ExcelService) {}
 
   // Función para gestionar el cambio de archivo
   onFileChange(event: any): void {
     const file = event.target.files[0];
     if (file) {
       this.selectedFile = file;
-      this.readExcel(file);  // Llamar a la función para leer el archivo
+      this.readExcel(file); // Llamar a la función para leer el archivo
     }
   }
 
@@ -32,30 +32,36 @@ export class ExcelComponent {
     reader.onload = (e: any) => {
       const data = e.target.result;
       const workbook = XLSX.read(data, { type: 'array' });
-      const sheetName = workbook.SheetNames[0];  // Leer la primera hoja
+      const sheetName = workbook.SheetNames[0]; // Leer la primera hoja
       const sheet = workbook.Sheets[sheetName];
-      this.excelData = XLSX.utils.sheet_to_json(sheet, { header: 1 });  // Convertir a formato JSON
+      this.excelData = XLSX.utils.sheet_to_json(sheet, { header: 1 }); // Convertir a formato JSON
     };
-    reader.readAsArrayBuffer(file);  // Leer el archivo como ArrayBuffer
+    reader.readAsArrayBuffer(file); // Leer el archivo como ArrayBuffer
   }
 
   // Función para subir el archivo al backend
   uploadFile(): void {
+    this.clearMessages(); // Limpiar mensajes previos
     if (!this.selectedFile) {
-      alert('Por favor selecciona un archivo primero');
+      this.errorMessage = 'Por favor selecciona un archivo primero';
       return;
     }
 
     // Usar el servicio para enviar el archivo al backend
     this.excelService.procesarExcel(this.selectedFile).subscribe({
-      next: (response) => {
-        console.log('Archivo cargado correctamente', response);
-        alert('Archivo cargado correctamente');
+      next: () => {
+        this.successMessage = 'Excel procesado correctamente';
       },
       error: (error) => {
         console.error('Error al cargar el archivo', error);
-        alert('Hubo un error al cargar el archivo');
+        this.errorMessage = 'Hubo un error al cargar el archivo';
       }
     });
+  }
+
+  // Limpiar mensajes
+  clearMessages(): void {
+    this.successMessage = '';
+    this.errorMessage = '';
   }
 }
